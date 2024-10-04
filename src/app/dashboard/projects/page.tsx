@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { GoDotFill } from "react-icons/go";
@@ -15,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import CreateNewProjectDialog from "@/components/dashboard/CreateNewProjectDialog";
 
 const Projects = () => {
   const dummyProjects = [
@@ -37,11 +39,18 @@ const Projects = () => {
       updatedAt: new Date(),
     },
   ];
+
+  const [isVisible, setIsVisible] = useState(false);
   return (
     <div className="mt-10 px-20 flex flex-col gap-y-8 pb-10">
+      <CreateNewProjectDialog
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
+
       <div className="flex gap-x-4 items-center">
         <Input placeholder="Search projects" />
-        <Button>New Project</Button>
+        <Button onClick={() => setIsVisible(true)}>New Project</Button>
       </div>
 
       <div className="flex flex-wrap gap-x-7 items-center gap-y-6">
