@@ -19,7 +19,7 @@ export const sendEmail = async (email: string, otp: number) => {
       html: `<p>Your otp is: ${otp}</p>`,
     });
     return true;
-  } catch (error) {
+  } catch {
     return false;
   }
 };
