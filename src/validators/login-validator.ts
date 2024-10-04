@@ -9,3 +9,5 @@ export const loginValidator = z.object({
     .trim()
     .min(8, { message: "Password must be atleast 8 characters long" }),
 });
+
+export type loginValidatorType = z.infer<typeof loginValidator>;
