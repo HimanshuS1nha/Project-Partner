@@ -51,7 +51,13 @@ export const POST = async (req: NextRequest) => {
         },
       });
 
-      await sendEmail(user.email, otp);
+      const isEmailSent = await sendEmail(user.email, otp);
+      if (!isEmailSent) {
+        return NextResponse.json(
+          { error: "Some error occured. Please try again later" },
+          { status: 500 }
+        );
+      }
 
       return NextResponse.json(
         { isVerified: false, message: "Verify your email" },
