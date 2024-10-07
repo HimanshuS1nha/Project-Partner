@@ -39,14 +39,14 @@ export const POST = async (req: NextRequest) => {
 
       await prisma.otp.deleteMany({
         where: {
-          email: user.email,
+          userEmail: user.email,
         },
       });
 
       await prisma.otp.create({
         data: {
           otp,
-          email: user.email,
+          userEmail: user.email,
           expiresIn: new Date(Date.now() + 5 * 60 * 1000),
         },
       });

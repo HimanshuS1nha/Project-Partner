@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ProjectStatus {
+  Live
+  Building
+}
+
 model Users {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   name       String
@@ -21,18 +26,32 @@ model Users {
   isVerified Boolean @default(false)
 
   Otp Otp?
+  Projects  Projects[]
 
-  createdAt DateTime @default(now())
-  updaedtAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updaedtAt DateTime   @updatedAt
 }
 
 model Otp {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   otp       Int
-  email     String   @unique
   expiresIn DateTime
 
-  user Users @relation(references: [email], fields: [email], onDelete: Cascade)
+  userEmail String @unique
+  user      Users  @relation(references: [email], fields: [userEmail], onDelete: Cascade)
 
   createdAt DateTime @default(now())
+}
+
+model Projects {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  status      ProjectStatus
+
+  userEmail String
+  user      Users  @relation(references: [email], fields: [userEmail], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
