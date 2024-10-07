@@ -17,3 +17,5 @@ export const signupValidator = z.object({
     .trim()
     .min(8, { message: "Confirm Password must be atleast 8 characters long" }),
 });
+
+export type signupValidatorType = z.infer<typeof signupValidator>;
