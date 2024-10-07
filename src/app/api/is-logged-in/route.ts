@@ -1,14 +1,14 @@
 import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 import prisma from "@/lib/db";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   try {
     const token = cookies().get("token")?.value;
     if (!token) {
-      return null;
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { payload } = await jwtVerify(
@@ -30,6 +30,13 @@ export const GET = async (req: NextRequest) => {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    return NextResponse.json({ user });
-  } catch (error) {}
+    return NextResponse.json({ user }, { status: 200 });
+  } catch {
+    return NextResponse.json(
+      {
+        error: "Some error occured. Please try anain later!",
+      },
+      { status: 500 }
+    );
+  }
 };

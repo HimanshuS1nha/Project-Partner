@@ -36,7 +36,7 @@ const Navbar = () => {
     if (data?.user) {
       setUser(data.user);
     }
-  }, [data]);
+  }, [data, setUser]);
   return (
     <nav className="h-[8vh] px-6 flex items-center justify-between">
       <div className="flex gap-x-10 items-center">
