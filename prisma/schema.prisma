@@ -18,6 +18,12 @@ enum ProjectStatus {
   Building
 }
 
+enum TaskStatus {
+  Pending
+  Review
+  Completed
+}
+
 model Users {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   name       String
@@ -25,11 +31,11 @@ model Users {
   password   String
   isVerified Boolean @default(false)
 
-  Otp Otp?
-  Projects  Projects[]
+  Otp      Otp?
+  Projects Projects[]
 
-  createdAt DateTime   @default(now())
-  updaedtAt DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updaedtAt DateTime @updatedAt
 }
 
 model Otp {
@@ -51,6 +57,23 @@ model Projects {
 
   userEmail String
   user      Users  @relation(references: [email], fields: [userEmail], onDelete: Cascade)
+
+  Tasks Tasks[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tasks {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  startDate   String
+  endDate     String
+  status      TaskStatus
+
+  projectId String   @db.ObjectId
+  Projects  Projects @relation(fields: [projectId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
