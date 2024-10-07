@@ -1,10 +1,11 @@
 export const pricingPlans = [
   {
     planName: "Basic",
-    description: "Start for free and effortlessly manage your projects with essential tools!",
+    description:
+      "Start for free and effortlessly manage your projects with essential tools!",
     price: "₹0",
     features: ["1 project", "Progress Tracking"],
-    buttonText: "Get Started",
+    buttonText: "Signup",
   },
   {
     planName: "Pro",
@@ -16,7 +17,8 @@ export const pricingPlans = [
   },
   {
     planName: "Custom",
-    description: "Tailor your experience with our Custom Plan—built just for you!",
+    description:
+      "Tailor your experience with our Custom Plan—built just for you!",
     price: "Custom",
     features: ["Custom number of projects", "24X7 support"],
     buttonText: "Contact Us",

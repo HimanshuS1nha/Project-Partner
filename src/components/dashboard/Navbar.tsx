@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useUser } from "@/hooks/useUser";
+
 import type { UserType } from "../../../types";
 
 const Navbar = () => {
