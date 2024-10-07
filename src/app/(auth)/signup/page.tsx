@@ -43,7 +43,7 @@ const Signup = () => {
       }
 
       const { data } = await axios.post("/api/signup", { ...values });
-
+      
       return data as { message: string };
     },
     onSuccess: (data) => {
@@ -122,7 +122,7 @@ const Signup = () => {
           <Input
             id="confirmPassword"
             placeholder="Confirm your password"
-            type="confirmPassword"
+            type="password"
             required
             {...register("confirmPassword", { required: true })}
           />

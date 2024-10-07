@@ -1,9 +1,13 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoFolderOpen } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { Loader2 } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -13,9 +17,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useUser } from "@/hooks/useUser";
+import type { UserType } from "../../../types";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { setUser, user } = useUser();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["is-logged-in"],
+    queryFn: async () => {
+      const { data } = await axios.get("/api/is-logged-in");
+      return data as { user: UserType };
+    },
+  });
+
+  useEffect(() => {
+    if (data?.user) {
+      setUser(data.user);
+    }
+  }, [data]);
   return (
     <nav className="h-[8vh] px-6 flex items-center justify-between">
       <div className="flex gap-x-10 items-center">
@@ -25,9 +46,13 @@ const Navbar = () => {
           </p>
           <p className="text-gray-700">/</p>
           <div className="flex items-center gap-x-2">
-            <div className="bg-indigo-600 w-8 h-8 rounded-full flex justify-center items-center">
-              <p className="text-white">A</p>
-            </div>
+            {isLoading ? (
+              <Loader2 color="blue" size={25} className="animate-spin" />
+            ) : (
+              <div className="bg-indigo-600 w-8 h-8 rounded-full flex justify-center items-center">
+                <p className="text-white">{user?.name?.[0]}</p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -62,20 +87,24 @@ const Navbar = () => {
         </div>
       </div>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger className="focus:outline-none">
-          <div className="bg-indigo-600 w-8 h-8 rounded-full flex justify-center items-center">
-            <p className="text-white">A</p>
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="focus:bg-rose-600 focus:text-white cursor-pointer">
-            Logout
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      {isLoading ? (
+        <Loader2 color="blue" size={25} className="animate-spin" />
+      ) : (
+        <DropdownMenu>
+          <DropdownMenuTrigger className="focus:outline-none">
+            <div className="bg-indigo-600 w-8 h-8 rounded-full flex justify-center items-center">
+              <p className="text-white">{user?.name?.[0]}</p>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="focus:bg-rose-600 focus:text-white cursor-pointer">
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
     </nav>
   );
 };
