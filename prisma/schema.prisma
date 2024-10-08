@@ -32,7 +32,7 @@ model Users {
   isVerified Boolean @default(false)
 
   Otp      Otp?
-  Projects Projects[]
+  projects Projects[]
 
   createdAt DateTime @default(now())
   updaedtAt DateTime @updatedAt
@@ -58,7 +58,7 @@ model Projects {
   userEmail String
   user      Users  @relation(references: [email], fields: [userEmail], onDelete: Cascade)
 
-  Tasks Tasks[]
+  tasks Tasks[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
