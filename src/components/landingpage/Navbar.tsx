@@ -74,6 +74,9 @@ const Navbar = () => {
             <DropdownMenuItem className="cursor-pointer" asChild>
               <Link href={"/dashboard/projects"}>Go to Dashboard</Link>
             </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer" asChild>
+              <Link href={"/change-password"}>Change Password</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem className="focus:bg-rose-600 focus:text-white cursor-pointer">
               Logout
             </DropdownMenuItem>

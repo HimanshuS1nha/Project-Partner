@@ -100,6 +100,9 @@ const Navbar = () => {
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer" asChild>
+              <Link href={"/change-password"}>Change Password</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem className="focus:bg-rose-600 focus:text-white cursor-pointer">
               Logout
             </DropdownMenuItem>

@@ -6,8 +6,14 @@ export const middleware = async (req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
 
   const token = cookies().get("token")?.value;
+
   if (!token) {
-    if (pathname === "/login" || pathname === "/signup") {
+    if (
+      pathname === "/login" ||
+      pathname === "/signup" ||
+      pathname === "/api/login" ||
+      pathname === "/api/signup"
+    ) {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(new URL("/login", req.url));
@@ -29,5 +35,11 @@ export const middleware = async (req: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/login", "/signup"],
+  matcher: [
+    "/dashboard/:path*",
+    "/login",
+    "/signup",
+    "/api/:path*",
+    "/change-password",
+  ],
 };
