@@ -5,6 +5,7 @@ import { GoDotFill } from "react-icons/go";
 
 import { Button } from "@/components/ui/button";
 import TasksBoard from "@/components/dashboard/TasksBoard";
+import CreateNewTaskDialog from "@/components/dashboard/CreateNewTaskDialog";
 
 import type { TaskType } from "../../../../../types";
 
@@ -23,8 +24,15 @@ const Project = () => {
       status: "Review",
     },
   ]);
+  const [isVisible, setIsVisible] = useState(false);
+  const [type, setType] = useState<"" | "Pending" | "Review" | "Completed">("");
   return (
     <div className="px-40 mt-10 flex flex-col gap-y-12">
+      <CreateNewTaskDialog
+        type={type}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
       <div className="flex justify-between items-center">
         <div className="flex gap-x-2 items-center">
           <p className="text-4xl font-semibold text-indigo-600">
@@ -56,24 +64,23 @@ const Project = () => {
       </div>
 
       <div className="flex gap-x-12 justify-center">
-        <TasksBoard
-          title="Pending"
-          tasks={tasks}
-          setTasks={setTasks}
-          color="rose"
-        />
-        <TasksBoard
-          title="Review"
-          tasks={tasks}
-          setTasks={setTasks}
-          color="indigo"
-        />
-        <TasksBoard
-          title="Completed"
-          tasks={tasks}
-          setTasks={setTasks}
-          color="green"
-        />
+        {[
+          { title: "Pending", color: "rose" },
+          { title: "Review", color: "indigo" },
+          { title: "Completed", color: "green" },
+        ].map((item) => {
+          return (
+            <TasksBoard
+              title={item.title as "Pending" | "Review" | "Completed"}
+              tasks={tasks}
+              setTasks={setTasks}
+              color={item.color as "rose" | "indigo" | "green"}
+              key={item.title}
+              setType={setType}
+              setIsVisible={setIsVisible}
+            />
+          );
+        })}
       </div>
     </div>
   );

@@ -11,11 +11,17 @@ const TasksBoard = ({
   setTasks,
   title,
   color,
+  setType,
+  setIsVisible,
 }: {
   tasks: TaskType[];
   setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
   title: "Pending" | "Review" | "Completed";
   color: "rose" | "indigo" | "green";
+  setType: React.Dispatch<
+    React.SetStateAction<"" | "Pending" | "Review" | "Completed">
+  >;
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
     <div
@@ -42,6 +48,10 @@ const TasksBoard = ({
           size={23}
           color={color === "rose" ? "red" : color === "indigo" ? "blue" : color}
           className="cursor-pointer"
+          onClick={() => {
+            setType(title);
+            setIsVisible(true);
+          }}
         />
       </div>
 
