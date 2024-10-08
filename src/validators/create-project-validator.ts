@@ -8,3 +8,5 @@ export const createProjectValidator = z.object({
   description: z.string().optional(),
   status: z.enum(["Live", "Building"]),
 });
+
+export type createProjectValidatorType = z.infer<typeof createProjectValidator>;
