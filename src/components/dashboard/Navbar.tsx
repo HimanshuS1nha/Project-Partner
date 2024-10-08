@@ -7,7 +7,6 @@ import { IoFolderOpen } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Loader2 } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -17,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Loader from "../ui/loader";
 import { useUser } from "@/hooks/useUser";
 
 import type { UserType } from "../../../types";
@@ -48,7 +48,7 @@ const Navbar = () => {
           <p className="text-gray-700">/</p>
           <div className="flex items-center gap-x-2">
             {isLoading ? (
-              <Loader2 color="blue" size={25} className="animate-spin" />
+              <Loader size="sm" />
             ) : (
               <div className="bg-indigo-600 w-8 h-8 rounded-full flex justify-center items-center">
                 <p className="text-white">{user?.name?.[0]}</p>
@@ -89,7 +89,7 @@ const Navbar = () => {
       </div>
 
       {isLoading ? (
-        <Loader2 color="blue" size={25} className="animate-spin" />
+        <Loader size="sm" />
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger className="focus:outline-none">

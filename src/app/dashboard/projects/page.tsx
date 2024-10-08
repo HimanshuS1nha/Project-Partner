@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { Loader2 } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Loader from "@/components/ui/loader";
 import CreateNewProjectDialog from "@/components/dashboard/CreateNewProjectDialog";
 import ProjectCard from "@/components/dashboard/ProjectCard";
 
@@ -46,7 +46,7 @@ const Projects = () => {
       <div className="flex flex-wrap gap-x-7 items-center gap-y-6">
         {isLoading && (
           <div className="w-full flex justify-center">
-            <Loader2 size={40} color="blue" className="animate-spin" />
+            <Loader size="lg" />
           </div>
         )}
         {!isLoading &&

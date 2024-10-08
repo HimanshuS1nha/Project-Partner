@@ -5,9 +5,9 @@ import { GoDotFill } from "react-icons/go";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import Loader from "@/components/ui/loader";
 import TasksBoard from "@/components/dashboard/TasksBoard";
 import CreateNewTaskDialog from "@/components/dashboard/CreateNewTaskDialog";
 
@@ -51,7 +51,7 @@ const Project = ({ params }: { params: { id: string } }) => {
 
       {isLoading && (
         <div className="w-full flex justify-center">
-          <Loader2 size={40} color="blue" className="animate-spin" />
+          <Loader size="lg" />
         </div>
       )}
 
