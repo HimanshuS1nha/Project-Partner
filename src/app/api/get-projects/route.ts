@@ -20,10 +20,6 @@ export const GET = async () => {
       where: {
         email: payload.email as string,
       },
-      select: {
-        name: true,
-        email: true,
-      },
     });
 
     if (!user) {
