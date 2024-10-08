@@ -9,7 +9,7 @@ import CreateNewTaskDialog from "@/components/dashboard/CreateNewTaskDialog";
 
 import type { TaskType } from "../../../../../types";
 
-const Project = () => {
+const Project = ({ params }: { params: { id: string } }) => {
   const project = {
     title: "Todo App",
     status: "Live",
@@ -32,6 +32,7 @@ const Project = () => {
         type={type}
         isVisible={isVisible}
         setIsVisible={setIsVisible}
+        projectId={params.id}
       />
       <div className="flex justify-between items-center">
         <div className="flex gap-x-2 items-center">
