@@ -2,11 +2,12 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { IoFolderOpen } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 import {
   DropdownMenu,
@@ -22,6 +23,7 @@ import { useUser } from "@/hooks/useUser";
 import type { UserType } from "../../../types";
 
 const Navbar = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const { setUser, user } = useUser();
 
@@ -30,6 +32,27 @@ const Navbar = () => {
     queryFn: async () => {
       const { data } = await axios.get("/api/is-logged-in");
       return data as { user: UserType };
+    },
+  });
+
+  const { mutate: handleLogout } = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: async () => {
+      const { data } = await axios.get("/api/logout");
+
+      return data as { message: string };
+    },
+    onSuccess: (data) => {
+      setUser(null);
+      toast.success(data.message);
+      router.replace("/");
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError && error.response?.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Some error occured. Please try again later");
+      }
     },
   });
 
@@ -103,7 +126,10 @@ const Navbar = () => {
             <DropdownMenuItem className="cursor-pointer" asChild>
               <Link href={"/change-password"}>Change Password</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="focus:bg-rose-600 focus:text-white cursor-pointer">
+            <DropdownMenuItem
+              className="focus:bg-rose-600 focus:text-white cursor-pointer"
+              onClick={() => handleLogout()}
+            >
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>

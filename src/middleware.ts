@@ -5,15 +5,18 @@ import { NextRequest, NextResponse } from "next/server";
 export const middleware = async (req: NextRequest) => {
   const pathname = req.nextUrl.pathname;
 
+  if (
+    pathname === "/api/is-logged-in" ||
+    pathname === "/api/login" ||
+    pathname === "/api/signup"
+  ) {
+    return NextResponse.next();
+  }
+
   const token = cookies().get("token")?.value;
 
   if (!token) {
-    if (
-      pathname === "/login" ||
-      pathname === "/signup" ||
-      pathname === "/api/login" ||
-      pathname === "/api/signup"
-    ) {
+    if (pathname === "/login" || pathname === "/signup") {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(new URL("/login", req.url));

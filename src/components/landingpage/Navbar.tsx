@@ -2,8 +2,10 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,6 +21,7 @@ import { useUser } from "@/hooks/useUser";
 import type { UserType } from "../../../types";
 
 const Navbar = () => {
+  const router = useRouter();
   const { user, setUser } = useUser();
 
   const { data } = useQuery({
@@ -26,6 +29,27 @@ const Navbar = () => {
     queryFn: async () => {
       const { data } = await axios.get("/api/is-logged-in");
       return data as { user: UserType };
+    },
+  });
+
+  const { mutate: handleLogout } = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: async () => {
+      const { data } = await axios.get("/api/logout");
+
+      return data as { message: string };
+    },
+    onSuccess: (data) => {
+      setUser(null);
+      toast.success(data.message);
+      router.replace("/");
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError && error.response?.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Some error occured. Please try again later");
+      }
     },
   });
 
@@ -77,7 +101,10 @@ const Navbar = () => {
             <DropdownMenuItem className="cursor-pointer" asChild>
               <Link href={"/change-password"}>Change Password</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="focus:bg-rose-600 focus:text-white cursor-pointer">
+            <DropdownMenuItem
+              className="focus:bg-rose-600 focus:text-white cursor-pointer"
+              onClick={() => handleLogout()}
+            >
               Logout
             </DropdownMenuItem>
           </DropdownMenuContent>
