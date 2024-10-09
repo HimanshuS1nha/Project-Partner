@@ -13,10 +13,14 @@ import CreateNewTaskDialog from "@/components/dashboard/CreateNewTaskDialog";
 
 import type { TaskType } from "../../../../../types";
 import type { ProjectType } from "../../../../../types";
+import EditProjectDialog from "@/components/dashboard/EditProjectDialog";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isCreateNewTaskDialogVisible, setIsCreateNewTaskDialogVisible] =
+    useState(false);
+  const [isEditProjectDialogVisible, setIsEditProjectDialogVisible] =
+    useState(false);
   const [type, setType] = useState<"" | "Pending" | "Review" | "Completed">("");
 
   const { data, isLoading, error } = useQuery({
@@ -44,9 +48,15 @@ const Project = ({ params }: { params: { id: string } }) => {
     <div className="px-40 mt-10 flex flex-col gap-y-12">
       <CreateNewTaskDialog
         type={type}
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
+        isVisible={isCreateNewTaskDialogVisible}
+        setIsVisible={setIsCreateNewTaskDialogVisible}
         projectId={params.id}
+      />
+
+      <EditProjectDialog
+        isVisible={isEditProjectDialogVisible}
+        setIsVisible={setIsEditProjectDialogVisible}
+        project={data?.project}
       />
 
       {isLoading && (
@@ -86,7 +96,9 @@ const Project = ({ params }: { params: { id: string } }) => {
             </div>
 
             <div className="flex gap-x-4 items-center">
-              <Button>Edit project</Button>
+              <Button onClick={() => setIsEditProjectDialogVisible(true)}>
+                Edit project
+              </Button>
               <Button variant={"destructive"}>Delete project</Button>
             </div>
           </div>
@@ -105,7 +117,7 @@ const Project = ({ params }: { params: { id: string } }) => {
                   color={item.color as "rose" | "indigo" | "green"}
                   key={item.title}
                   setType={setType}
-                  setIsVisible={setIsVisible}
+                  setIsVisible={setIsCreateNewTaskDialogVisible}
                 />
               );
             })}
