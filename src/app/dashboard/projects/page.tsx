@@ -12,9 +12,14 @@ import CreateNewProjectDialog from "@/components/dashboard/CreateNewProjectDialo
 import ProjectCard from "@/components/dashboard/ProjectCard";
 
 import type { ProjectType } from "../../../../types";
+import DeleteProjectDialog from "@/components/dashboard/DeleteProjectDialog";
 
 const Projects = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isCreateNewProjectDialogVisible, setIsCreateNewProjectDialogVisible] =
+    useState(false);
+  const [isDeleteProjectDialogVisible, setIsDeleteProjectDialogVisible] =
+    useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState("");
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["get-projects"],
@@ -34,13 +39,21 @@ const Projects = () => {
   return (
     <div className="mt-10 px-20 flex flex-col gap-y-8 pb-10">
       <CreateNewProjectDialog
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
+        isVisible={isCreateNewProjectDialogVisible}
+        setIsVisible={setIsCreateNewProjectDialogVisible}
+      />
+
+      <DeleteProjectDialog
+        isVisible={isDeleteProjectDialogVisible}
+        setIsVisible={setIsDeleteProjectDialogVisible}
+        projectId={selectedProjectId}
       />
 
       <div className="flex gap-x-4 items-center">
         <Input placeholder="Search projects" />
-        <Button onClick={() => setIsVisible(true)}>New Project</Button>
+        <Button onClick={() => setIsCreateNewProjectDialogVisible(true)}>
+          New Project
+        </Button>
       </div>
 
       <div className="flex flex-wrap gap-x-7 items-center gap-y-6">
@@ -52,7 +65,16 @@ const Projects = () => {
         {!isLoading &&
           (data?.projects && data?.projects.length > 0 ? (
             data.projects.map((project) => {
-              return <ProjectCard key={project.id} project={project} />;
+              return (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  setSelectedProjectId={setSelectedProjectId}
+                  setIsDeleteProjectDialogVisible={
+                    setIsDeleteProjectDialogVisible
+                  }
+                />
+              );
             })
           ) : (
             <div className="w-full flex justify-center">

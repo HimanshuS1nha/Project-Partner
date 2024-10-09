@@ -1,3 +1,6 @@
+"use client";
+
+import React from "react";
 import Link from "next/link";
 import { formatDistanceToNowStrict } from "date-fns";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -14,7 +17,17 @@ import {
 
 import type { ProjectType } from "../../../types";
 
-const ProjectCard = ({ project }: { project: ProjectType }) => {
+const ProjectCard = ({
+  project,
+  setSelectedProjectId,
+  setIsDeleteProjectDialogVisible,
+}: {
+  project: ProjectType;
+  setSelectedProjectId: React.Dispatch<React.SetStateAction<string>>;
+  setIsDeleteProjectDialogVisible: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
+}) => {
   const completedTasks = project.tasks.filter(
     (task) => task.status === "Completed"
   );
@@ -39,7 +52,13 @@ const ProjectCard = ({ project }: { project: ProjectType }) => {
               <DropdownMenuItem className="cursor-pointer" asChild>
                 <Link href={`/dashboard/projects/${project.id}`}>Open</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="focus:bg-rose-600 focus:text-white cursor-pointer">
+              <DropdownMenuItem
+                className="focus:bg-rose-600 focus:text-white cursor-pointer"
+                onClick={() => {
+                  setSelectedProjectId(project.id);
+                  setIsDeleteProjectDialogVisible(true);
+                }}
+              >
                 Delete project
               </DropdownMenuItem>
             </DropdownMenuContent>

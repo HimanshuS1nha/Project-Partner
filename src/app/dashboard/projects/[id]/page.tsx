@@ -10,11 +10,12 @@ import { Button } from "@/components/ui/button";
 import Loader from "@/components/ui/loader";
 import TasksBoard from "@/components/dashboard/TasksBoard";
 import CreateNewTaskDialog from "@/components/dashboard/CreateNewTaskDialog";
+import EditProjectDialog from "@/components/dashboard/EditProjectDialog";
+import EditTaskDialog from "@/components/dashboard/EditTaskDialog";
 
 import type { TaskType } from "../../../../../types";
 import type { ProjectType } from "../../../../../types";
-import EditProjectDialog from "@/components/dashboard/EditProjectDialog";
-import EditTaskDialog from "@/components/dashboard/EditTaskDialog";
+import DeleteProjectDialog from "@/components/dashboard/DeleteProjectDialog";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
@@ -23,6 +24,8 @@ const Project = ({ params }: { params: { id: string } }) => {
   const [isEditProjectDialogVisible, setIsEditProjectDialogVisible] =
     useState(false);
   const [isEditTaskDialogVisible, setIsEditTaskDialogVisible] = useState(false);
+  const [isDeleteProjectDialogVisible, setIsDeleteProjectDialogVisible] =
+    useState(false);
   const [type, setType] = useState<"" | "Pending" | "Review" | "Completed">("");
   const [selectedTask, setSelectedTask] = useState<TaskType>();
 
@@ -69,6 +72,12 @@ const Project = ({ params }: { params: { id: string } }) => {
         task={selectedTask}
       />
 
+      <DeleteProjectDialog
+        isVisible={isDeleteProjectDialogVisible}
+        setIsVisible={setIsDeleteProjectDialogVisible}
+        projectId={params.id}
+      />
+
       {isLoading && (
         <div className="w-full flex justify-center">
           <Loader size="lg" />
@@ -109,7 +118,12 @@ const Project = ({ params }: { params: { id: string } }) => {
               <Button onClick={() => setIsEditProjectDialogVisible(true)}>
                 Edit project
               </Button>
-              <Button variant={"destructive"}>Delete project</Button>
+              <Button
+                variant={"destructive"}
+                onClick={() => setIsDeleteProjectDialogVisible(true)}
+              >
+                Delete Project
+              </Button>
             </div>
           </div>
 
