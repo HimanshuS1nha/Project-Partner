@@ -12,7 +12,9 @@ const TasksBoard = ({
   title,
   color,
   setType,
-  setIsVisible,
+  setIsCreateNewTaskDialogVisible,
+  setIsEditTaskDialogVisible,
+  setSelectedTask,
 }: {
   tasks: TaskType[];
   setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
@@ -21,7 +23,11 @@ const TasksBoard = ({
   setType: React.Dispatch<
     React.SetStateAction<"" | "Pending" | "Review" | "Completed">
   >;
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCreateNewTaskDialogVisible: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
+  setIsEditTaskDialogVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectedTask: React.Dispatch<React.SetStateAction<TaskType | undefined>>;
 }) => {
   return (
     <div
@@ -50,7 +56,7 @@ const TasksBoard = ({
           className="cursor-pointer"
           onClick={() => {
             setType(title);
-            setIsVisible(true);
+            setIsCreateNewTaskDialogVisible(true);
           }}
         />
       </div>
@@ -74,7 +80,15 @@ const TasksBoard = ({
                 </p>
               </div>
 
-              <MdEdit size={22} color="black" />
+              <MdEdit
+                size={22}
+                color="black"
+                className="cursor-pointer"
+                onClick={() => {
+                  setSelectedTask(task);
+                  setIsEditTaskDialogVisible(true);
+                }}
+              />
             </div>
           );
         })}

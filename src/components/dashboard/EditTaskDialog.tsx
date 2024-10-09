@@ -18,28 +18,23 @@ import {
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import {
-  createProjectValidator,
-  type createProjectValidatorType,
-} from "@/validators/create-project-validator";
-import type { ProjectType } from "../../../types";
+  editTaskValidatorClient,
+  type editTaskValidatorClientType,
+} from "@/validators/edit-task-validator";
+import type { TaskType } from "../../../types";
 
-const EditProjectDialog = ({
+const EditTaskDialog = ({
   isVisible,
   setIsVisible,
-  project,
+  task,
+  projectId,
 }: {
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  project?: ProjectType;
+  task?: TaskType;
+  projectId: string;
 }) => {
   const queryClient = useQueryClient();
 
@@ -48,36 +43,39 @@ const EditProjectDialog = ({
     formState: { errors },
     handleSubmit,
     reset,
-    getValues,
     setValue,
-  } = useForm<createProjectValidatorType>({
+  } = useForm<editTaskValidatorClientType>({
     defaultValues: {
       description: "",
-      status: "" as never,
+      endDate: "",
+      startDate: "",
       title: "",
     },
-    resolver: zodResolver(createProjectValidator),
+    resolver: zodResolver(editTaskValidatorClient),
   });
 
-  const { mutate: handleEditProject, isPending } = useMutation({
-    mutationKey: ["edit-project"],
-    mutationFn: async (values: createProjectValidatorType) => {
-      if (!project) {
-        throw new Error("Project does not exist");
+  const { mutate: handleEditTask, isPending } = useMutation({
+    mutationKey: ["edit-task"],
+    mutationFn: async (values: editTaskValidatorClientType) => {
+      if (!task) {
+        throw new Error("Task Id does not exist");
       }
       if (
-        values.title === project?.title &&
-        values.description === project.description &&
-        values.status === project.status
+        values.title === task?.title &&
+        values.description === task.description &&
+        values.startDate === task.startDate &&
+        values.endDate === task.endDate
       ) {
         return {
-          message: "Project details edited successfully",
+          message: "Task details edited successfully",
           areValuesChanged: false,
         };
       }
 
-      const { data } = await axios.post(`/api/edit-project/${project?.id}`, {
+      const { data } = await axios.post(`/api/edit-task/${task?.id}`, {
         ...values,
+        projectId,
+        status: task.status,
       });
 
       return { ...data, areValuesChanged: true } as {
@@ -88,9 +86,8 @@ const EditProjectDialog = ({
     onSuccess: async (data) => {
       if (data.areValuesChanged) {
         await queryClient.invalidateQueries({
-          queryKey: [`get-project-${project?.id}`],
+          queryKey: [`get-project-${projectId}`],
         });
-        await queryClient.invalidateQueries({ queryKey: ["get-projects"] });
       }
       reset();
       toast.success(data.message);
@@ -106,32 +103,32 @@ const EditProjectDialog = ({
   });
 
   useEffect(() => {
-    if (project) {
-      setValue("title", project.title);
-      setValue("description", project.description);
-      setValue("status", project.status);
+    if (task) {
+      setValue("description", task.description);
+      setValue("title", task.title);
+      setValue("endDate", task.endDate);
+      setValue("startDate", task.startDate);
     }
-  }, [project, setValue]);
+  }, [task, setValue]);
   return (
     <Dialog open={isVisible} onOpenChange={() => setIsVisible(false)}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Project</DialogTitle>
+          <DialogTitle>Edit Task</DialogTitle>
           <DialogDescription>
             Click edit when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-
         <form
-          className="flex flex-col gap-y-8"
-          onSubmit={handleSubmit((data) => handleEditProject(data))}
+          className="flex flex-col gap-y-6"
+          onSubmit={handleSubmit((data) => handleEditTask(data))}
         >
           <div className="flex flex-col gap-y-4">
             <div className="flex flex-col gap-y-2">
               <Label htmlFor="title">Title</Label>
               <Input
                 id="title"
-                placeholder="Enter project's title"
+                placeholder="Enter task's title"
                 required
                 {...register("title", { required: true })}
               />
@@ -146,7 +143,8 @@ const EditProjectDialog = ({
               </Label>
               <Input
                 id="description"
-                placeholder="Enter project's description"
+                type="text"
+                placeholder="Enter task's description"
                 {...register("description")}
               />
               {errors.description && (
@@ -156,24 +154,31 @@ const EditProjectDialog = ({
               )}
             </div>
             <div className="flex flex-col gap-y-2">
-              <Label htmlFor="status">Status</Label>
-              <Select
+              <Label htmlFor="startDate">Start Date</Label>
+              <Input
+                id="startDate"
+                type="date"
                 required
-                defaultValue={getValues("status")}
-                onValueChange={(value) =>
-                  setValue("status", value as "Live" | "Building")
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Status" />
-                </SelectTrigger>
-                <SelectContent id="status">
-                  <SelectItem value="Live">Live</SelectItem>
-                  <SelectItem value="Building">Building</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.status && (
-                <p className="text-rose-600 text-sm">{errors.status.message}</p>
+                {...register("startDate", { required: true })}
+              />
+              {errors.startDate && (
+                <p className="text-rose-600 text-sm">
+                  {errors.startDate.message}
+                </p>
+              )}
+            </div>
+            <div className="flex flex-col gap-y-2">
+              <Label htmlFor="endDate">End Date</Label>
+              <Input
+                id="endDate"
+                type="date"
+                required
+                {...register("endDate", { required: true })}
+              />
+              {errors.endDate && (
+                <p className="text-rose-600 text-sm">
+                  {errors.endDate.message}
+                </p>
               )}
             </div>
           </div>
@@ -188,4 +193,4 @@ const EditProjectDialog = ({
   );
 };
 
-export default EditProjectDialog;
+export default EditTaskDialog;

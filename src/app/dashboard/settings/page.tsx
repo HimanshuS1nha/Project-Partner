@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 
 const Settings = () => {
@@ -19,7 +21,9 @@ const Settings = () => {
             </p>
           </div>
 
-          <Button>Change password</Button>
+          <Button asChild>
+            <Link href={"/change-password"}>Change password</Link>
+          </Button>
         </div>
 
         <div className="flex justify-between items-center p-3 border border-gray-300 rounded-lg">

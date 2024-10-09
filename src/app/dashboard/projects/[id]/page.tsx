@@ -14,6 +14,7 @@ import CreateNewTaskDialog from "@/components/dashboard/CreateNewTaskDialog";
 import type { TaskType } from "../../../../../types";
 import type { ProjectType } from "../../../../../types";
 import EditProjectDialog from "@/components/dashboard/EditProjectDialog";
+import EditTaskDialog from "@/components/dashboard/EditTaskDialog";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
@@ -21,7 +22,9 @@ const Project = ({ params }: { params: { id: string } }) => {
     useState(false);
   const [isEditProjectDialogVisible, setIsEditProjectDialogVisible] =
     useState(false);
+  const [isEditTaskDialogVisible, setIsEditTaskDialogVisible] = useState(false);
   const [type, setType] = useState<"" | "Pending" | "Review" | "Completed">("");
+  const [selectedTask, setSelectedTask] = useState<TaskType>();
 
   const { data, isLoading, error } = useQuery({
     queryKey: [`get-project-${params.id}`],
@@ -57,6 +60,13 @@ const Project = ({ params }: { params: { id: string } }) => {
         isVisible={isEditProjectDialogVisible}
         setIsVisible={setIsEditProjectDialogVisible}
         project={data?.project}
+      />
+
+      <EditTaskDialog
+        isVisible={isEditTaskDialogVisible}
+        setIsVisible={setIsEditTaskDialogVisible}
+        projectId={params.id}
+        task={selectedTask}
       />
 
       {isLoading && (
@@ -117,7 +127,11 @@ const Project = ({ params }: { params: { id: string } }) => {
                   color={item.color as "rose" | "indigo" | "green"}
                   key={item.title}
                   setType={setType}
-                  setIsVisible={setIsCreateNewTaskDialogVisible}
+                  setIsCreateNewTaskDialogVisible={
+                    setIsCreateNewTaskDialogVisible
+                  }
+                  setIsEditTaskDialogVisible={setIsEditTaskDialogVisible}
+                  setSelectedTask={setSelectedTask}
                 />
               );
             })}

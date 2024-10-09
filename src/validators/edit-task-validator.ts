@@ -1,0 +1,37 @@
+import { z } from "zod";
+
+export const editTaskValidatorServer = z.object({
+  title: z
+    .string({ required_error: "Title is required" })
+    .trim()
+    .min(1, { message: "Title is required" }),
+  description: z.string().optional(),
+  startDate: z
+    .string({ required_error: "Start Date is required" })
+    .date("Please enter a valid start date"),
+  endDate: z
+    .string({ required_error: "End Date is required" })
+    .date("Please enter a valid end date"),
+  projectId: z
+    .string({ required_error: "Project ID is required" })
+    .trim()
+    .min(1, { message: "Project ID is required" }),
+});
+
+export const editTaskValidatorClient = z.object({
+  title: z
+    .string({ required_error: "Title is required" })
+    .trim()
+    .min(1, { message: "Title is required" }),
+  description: z.string().optional(),
+  startDate: z
+    .string({ required_error: "Start Date is required" })
+    .date("Please enter a valid start date"),
+  endDate: z
+    .string({ required_error: "End Date is required" })
+    .date("Please enter a valid end date"),
+});
+
+export type editTaskValidatorClientType = z.infer<
+  typeof editTaskValidatorClient
+>;

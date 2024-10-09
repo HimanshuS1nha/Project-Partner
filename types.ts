@@ -4,6 +4,7 @@ export type TaskType = {
   startDate: string;
   endDate: string;
   status: "Pending" | "Review" | "Completed";
+  description?: string;
 };
 
 export type UserType = {
