@@ -20,11 +20,11 @@ import type { ProjectType } from "../../../types";
 const ProjectCard = ({
   project,
   setSelectedProjectId,
-  setIsDeleteProjectDialogVisible,
+  setIsDeleteConfirmationDialogVisible,
 }: {
   project: ProjectType;
   setSelectedProjectId: React.Dispatch<React.SetStateAction<string>>;
-  setIsDeleteProjectDialogVisible: React.Dispatch<
+  setIsDeleteConfirmationDialogVisible: React.Dispatch<
     React.SetStateAction<boolean>
   >;
 }) => {
@@ -56,7 +56,7 @@ const ProjectCard = ({
                 className="focus:bg-rose-600 focus:text-white cursor-pointer"
                 onClick={() => {
                   setSelectedProjectId(project.id);
-                  setIsDeleteProjectDialogVisible(true);
+                  setIsDeleteConfirmationDialogVisible(true);
                 }}
               >
                 Delete project

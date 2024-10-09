@@ -15,7 +15,7 @@ import EditTaskDialog from "@/components/dashboard/EditTaskDialog";
 
 import type { TaskType } from "../../../../../types";
 import type { ProjectType } from "../../../../../types";
-import DeleteProjectDialog from "@/components/dashboard/DeleteProjectDialog";
+import DeleteConfirmationDialog from "@/components/dashboard/DeleteConfirmationDialog";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
@@ -24,8 +24,10 @@ const Project = ({ params }: { params: { id: string } }) => {
   const [isEditProjectDialogVisible, setIsEditProjectDialogVisible] =
     useState(false);
   const [isEditTaskDialogVisible, setIsEditTaskDialogVisible] = useState(false);
-  const [isDeleteProjectDialogVisible, setIsDeleteProjectDialogVisible] =
-    useState(false);
+  const [
+    isDeleteConfirmarionDialogVisible,
+    setIsDeleteConfirmarionDialogVisible,
+  ] = useState(false);
   const [type, setType] = useState<"" | "Pending" | "Review" | "Completed">("");
   const [selectedTask, setSelectedTask] = useState<TaskType>();
 
@@ -72,10 +74,11 @@ const Project = ({ params }: { params: { id: string } }) => {
         task={selectedTask}
       />
 
-      <DeleteProjectDialog
-        isVisible={isDeleteProjectDialogVisible}
-        setIsVisible={setIsDeleteProjectDialogVisible}
+      <DeleteConfirmationDialog
+        isVisible={isDeleteConfirmarionDialogVisible}
+        setIsVisible={setIsDeleteConfirmarionDialogVisible}
         projectId={params.id}
+        type="project"
       />
 
       {isLoading && (
@@ -120,7 +123,7 @@ const Project = ({ params }: { params: { id: string } }) => {
               </Button>
               <Button
                 variant={"destructive"}
-                onClick={() => setIsDeleteProjectDialogVisible(true)}
+                onClick={() => setIsDeleteConfirmarionDialogVisible(true)}
               >
                 Delete Project
               </Button>

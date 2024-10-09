@@ -12,12 +12,12 @@ import CreateNewProjectDialog from "@/components/dashboard/CreateNewProjectDialo
 import ProjectCard from "@/components/dashboard/ProjectCard";
 
 import type { ProjectType } from "../../../../types";
-import DeleteProjectDialog from "@/components/dashboard/DeleteProjectDialog";
+import DeleteConfirmationDialog from "@/components/dashboard/DeleteConfirmationDialog";
 
 const Projects = () => {
   const [isCreateNewProjectDialogVisible, setIsCreateNewProjectDialogVisible] =
     useState(false);
-  const [isDeleteProjectDialogVisible, setIsDeleteProjectDialogVisible] =
+  const [isDeleteConfirmationDialogVisible, setIsDeleteConfirmationDialogVisible] =
     useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState("");
 
@@ -43,10 +43,11 @@ const Projects = () => {
         setIsVisible={setIsCreateNewProjectDialogVisible}
       />
 
-      <DeleteProjectDialog
-        isVisible={isDeleteProjectDialogVisible}
-        setIsVisible={setIsDeleteProjectDialogVisible}
+      <DeleteConfirmationDialog
+        isVisible={isDeleteConfirmationDialogVisible}
+        setIsVisible={setIsDeleteConfirmationDialogVisible}
         projectId={selectedProjectId}
+        type="project"
       />
 
       <div className="flex gap-x-4 items-center">
@@ -70,8 +71,8 @@ const Projects = () => {
                   key={project.id}
                   project={project}
                   setSelectedProjectId={setSelectedProjectId}
-                  setIsDeleteProjectDialogVisible={
-                    setIsDeleteProjectDialogVisible
+                  setIsDeleteConfirmationDialogVisible={
+                    setIsDeleteConfirmationDialogVisible
                   }
                 />
               );

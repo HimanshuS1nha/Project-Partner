@@ -73,7 +73,7 @@ model Tasks {
   status      TaskStatus
 
   projectId String   @db.ObjectId
-  Projects  Projects @relation(fields: [projectId], references: [id])
+  Projects  Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -1,12 +1,21 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import DeleteConfirmationDialog from "@/components/dashboard/DeleteConfirmationDialog";
 
 const Settings = () => {
+  const [isVisible, setIsVisible] = useState(false);
   return (
     <div className="mt-10 px-36 flex flex-col gap-y-8 pb-10">
+      <DeleteConfirmationDialog
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        type="all-projects"
+      />
+
       <div className="flex flex-col gap-y-3">
         <p className="text-4xl font-semibold text-indigo-600">Settings</p>
         <div className="w-full h-[0.5px] bg-black" />
@@ -37,7 +46,9 @@ const Settings = () => {
             </p>
           </div>
 
-          <Button variant={"destructive"}>Delete projects</Button>
+          <Button variant={"destructive"} onClick={() => setIsVisible(true)}>
+            Delete projects
+          </Button>
         </div>
       </div>
     </div>
