@@ -68,8 +68,10 @@ const ProjectCard = ({ project }: { project: ProjectType }) => {
       <div className="flex flex-col gap-y-2">
         <div className="flex justify-between items-center">
           <p className="font-semibold">
-            {Math.floor(completedTasks.length / project.tasks.length) || 0}%
-            completed
+            {(parseFloat(
+              (completedTasks.length / project.tasks.length).toFixed(2)
+            ) || 0) * 100}
+            % completed
           </p>
           <p className="font-semibold">
             {completedTasks.length}/{project.tasks.length}

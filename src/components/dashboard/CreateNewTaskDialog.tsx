@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 
 import {
@@ -35,6 +35,8 @@ const CreateNewTaskDialog = ({
   type: "Pending" | "Review" | "Completed" | "";
   projectId: string;
 }) => {
+  const queryClient = useQueryClient();
+
   const {
     register,
     formState: { errors },
@@ -61,7 +63,10 @@ const CreateNewTaskDialog = ({
 
       return data as { message: string };
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
+        queryKey: [`get-project-${projectId}`],
+      });
       reset();
       toast.success(data.message);
       setIsVisible(false);
