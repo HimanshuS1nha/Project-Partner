@@ -1,10 +1,15 @@
 "use client";
 
+import React from "react";
 import { GoPlus } from "react-icons/go";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import toast from "react-hot-toast";
+import { ZodError } from "zod";
 
 import type { TaskType } from "../../../types";
-import React from "react";
+import { changeTaskStatusValidator } from "@/validators/change-task-status-validator";
 
 const TasksBoard = ({
   tasks,
@@ -17,6 +22,7 @@ const TasksBoard = ({
   setSelectedTask,
   setDeleteType,
   setIsDeleteConfirmarionDialogVisible,
+  projectId,
 }: {
   tasks: TaskType[];
   setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
@@ -34,7 +40,41 @@ const TasksBoard = ({
     React.SetStateAction<boolean>
   >;
   setDeleteType: React.Dispatch<React.SetStateAction<"project" | "task" | "">>;
+  projectId: string;
 }) => {
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: handleChangeTaskStatus } = useMutation({
+    mutationKey: ["change-task-status"],
+    mutationFn: async ({
+      id,
+      status,
+    }: {
+      status: "Pending" | "Review" | "Completed";
+      id: string;
+    }) => {
+      const parsedData = await changeTaskStatusValidator.parseAsync({ status });
+
+      const { data } = await axios.post(`/api/change-task-status/${id}`, {
+        ...parsedData,
+      });
+
+      return data as { message: string };
+    },
+    onError: async (error) => {
+      await queryClient.invalidateQueries({
+        queryKey: [`get-project-${projectId}`],
+      });
+
+      if (error instanceof ZodError) {
+        toast.error(error.errors[0].message);
+      } else if (error instanceof AxiosError && error.response?.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Some error occured. Please try again later!");
+      }
+    },
+  });
   return (
     <div
       className="flex flex-col gap-y-5 border border-gray-300 p-5 w-[400px] rounded-lg items-center"
@@ -52,6 +92,10 @@ const TasksBoard = ({
         });
 
         setTasks(newTasks);
+        handleChangeTaskStatus({
+          status: title,
+          id: e.dataTransfer.getData("id"),
+        });
       }}
     >
       <div className="flex justify-between items-center w-full">

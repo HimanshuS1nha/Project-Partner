@@ -158,6 +158,7 @@ const Project = ({ params }: { params: { id: string } }) => {
                   setIsDeleteConfirmarionDialogVisible={
                     setIsDeleteConfirmarionDialogVisible
                   }
+                  projectId={params.id}
                 />
               );
             })}
