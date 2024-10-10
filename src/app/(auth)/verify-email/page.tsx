@@ -35,7 +35,11 @@ const VerifyEmail = () => {
           </InputOTP>
         </div>
 
-        <Button type="submit">Verify</Button>
+        <div className="flex flex-col gap-y-2.5">
+          <Button type="submit">Verify</Button>
+
+          <Button variant={"link"}>Resend OTP</Button>
+        </div>
       </form>
     </>
   );
