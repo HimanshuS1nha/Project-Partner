@@ -25,6 +25,7 @@ const Signup = () => {
     formState: { errors },
     handleSubmit,
     reset,
+    getValues,
   } = useForm<signupValidatorType>({
     defaultValues: {
       confirmPassword: "",
@@ -43,13 +44,13 @@ const Signup = () => {
       }
 
       const { data } = await axios.post("/api/signup", { ...values });
-      
+
       return data as { message: string };
     },
     onSuccess: (data) => {
       toast.success(data.message);
+      router.push(`/verify-email?email=${getValues("email")}`);
       reset();
-      router.push("/verify-email");
     },
     onError: (error) => {
       if (error instanceof AxiosError && error.response?.data.error) {
