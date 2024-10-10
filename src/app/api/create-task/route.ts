@@ -40,6 +40,9 @@ export const POST = async (req: NextRequest) => {
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
+    if (project.userEmail !== user.email) {
+      return NextResponse.json({ error: "Access denied" }, { status: 401 });
+    }
 
     await prisma.tasks.create({
       data: {

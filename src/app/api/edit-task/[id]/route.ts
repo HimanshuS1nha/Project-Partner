@@ -48,7 +48,7 @@ export const POST = async (
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
     if (project.userEmail !== user.email) {
-      return NextResponse.json({ error: "Access denied" }, { status: 40 });
+      return NextResponse.json({ error: "Access denied" }, { status: 401 });
     }
 
     const task = await prisma.tasks.findUnique({

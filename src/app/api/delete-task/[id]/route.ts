@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 
 import prisma from "@/lib/db";
 
-export const GET = async (
-  req: NextRequest,
+export const DELETE = async (
+  _: NextRequest,
   { params }: { params: { id: string } }
 ) => {
   try {
@@ -33,12 +33,18 @@ export const GET = async (
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const project = await prisma.projects.findUnique({
+    const task = await prisma.tasks.findUnique({
       where: {
         id: params.id,
       },
-      include: {
-        tasks: true,
+    });
+    if (!task) {
+      return NextResponse.json({ error: "Task not found" }, { status: 404 });
+    }
+
+    const project = await prisma.projects.findUnique({
+      where: {
+        id: task.projectId,
       },
     });
     if (!project) {
@@ -48,7 +54,16 @@ export const GET = async (
       return NextResponse.json({ error: "Access denied" }, { status: 401 });
     }
 
-    return NextResponse.json({ project }, { status: 200 });
+    await prisma.tasks.delete({
+      where: {
+        id: task.id,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Task deleted successfully" },
+      { status: 200 }
+    );
   } catch {
     return NextResponse.json(
       { error: "Some error occured. Please try again later!" },
