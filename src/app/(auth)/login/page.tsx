@@ -28,6 +28,7 @@ const Login = () => {
     formState: { errors },
     handleSubmit,
     reset,
+    getValues,
   } = useForm<loginValidatorType>({
     defaultValues: {
       email: "",
@@ -44,13 +45,13 @@ const Login = () => {
       return data as { isVerified: boolean; user: UserType };
     },
     onSuccess: (data) => {
-      reset();
       if (!data.isVerified) {
-        router.push("/verify-email");
+        router.push(`/verify-email?email=${getValues("email")}`);
       } else {
         setUser(data.user);
         router.replace("/dashboard/projects");
       }
+      reset();
     },
     onError: (error) => {
       if (error instanceof AxiosError && error.response?.data.error) {

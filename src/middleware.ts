@@ -8,7 +8,8 @@ export const middleware = async (req: NextRequest) => {
   if (
     pathname === "/api/is-logged-in" ||
     pathname === "/api/login" ||
-    pathname === "/api/signup"
+    pathname === "/api/signup" ||
+    pathname === "/api/verify-email"
   ) {
     return NextResponse.next();
   }
