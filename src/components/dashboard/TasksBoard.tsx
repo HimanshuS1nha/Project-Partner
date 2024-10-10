@@ -1,7 +1,7 @@
 "use client";
 
 import { GoPlus } from "react-icons/go";
-import { MdEdit } from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 import type { TaskType } from "../../../types";
 import React from "react";
@@ -15,6 +15,8 @@ const TasksBoard = ({
   setIsCreateNewTaskDialogVisible,
   setIsEditTaskDialogVisible,
   setSelectedTask,
+  setDeleteType,
+  setIsDeleteConfirmarionDialogVisible,
 }: {
   tasks: TaskType[];
   setTasks: React.Dispatch<React.SetStateAction<TaskType[]>>;
@@ -28,6 +30,10 @@ const TasksBoard = ({
   >;
   setIsEditTaskDialogVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedTask: React.Dispatch<React.SetStateAction<TaskType | undefined>>;
+  setIsDeleteConfirmarionDialogVisible: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
+  setDeleteType: React.Dispatch<React.SetStateAction<"project" | "task" | "">>;
 }) => {
   return (
     <div
@@ -80,15 +86,28 @@ const TasksBoard = ({
                 </p>
               </div>
 
-              <MdEdit
-                size={22}
-                color="black"
-                className="cursor-pointer"
-                onClick={() => {
-                  setSelectedTask(task);
-                  setIsEditTaskDialogVisible(true);
-                }}
-              />
+              <div className="flex gap-x-2 items-center">
+                <MdDelete
+                  size={22}
+                  color="black"
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setDeleteType("task");
+                    setSelectedTask(task);
+                    setIsDeleteConfirmarionDialogVisible(true);
+                  }}
+                />
+                <MdEdit
+                  size={22}
+                  color="black"
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setDeleteType("project");
+                    setSelectedTask(task);
+                    setIsEditTaskDialogVisible(true);
+                  }}
+                />
+              </div>
             </div>
           );
         })}

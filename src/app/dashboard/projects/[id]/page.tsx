@@ -29,6 +29,7 @@ const Project = ({ params }: { params: { id: string } }) => {
     setIsDeleteConfirmarionDialogVisible,
   ] = useState(false);
   const [type, setType] = useState<"" | "Pending" | "Review" | "Completed">("");
+  const [deleteType, setDeleteType] = useState<"" | "project" | "task">("");
   const [selectedTask, setSelectedTask] = useState<TaskType>();
 
   const { data, isLoading, error } = useQuery({
@@ -78,7 +79,8 @@ const Project = ({ params }: { params: { id: string } }) => {
         isVisible={isDeleteConfirmarionDialogVisible}
         setIsVisible={setIsDeleteConfirmarionDialogVisible}
         projectId={params.id}
-        type="project"
+        type={deleteType as "project" | "task"}
+        taskId={selectedTask?.id}
       />
 
       {isLoading && (
@@ -123,7 +125,10 @@ const Project = ({ params }: { params: { id: string } }) => {
               </Button>
               <Button
                 variant={"destructive"}
-                onClick={() => setIsDeleteConfirmarionDialogVisible(true)}
+                onClick={() => {
+                  setDeleteType("project");
+                  setIsDeleteConfirmarionDialogVisible(true);
+                }}
               >
                 Delete Project
               </Button>
@@ -149,6 +154,10 @@ const Project = ({ params }: { params: { id: string } }) => {
                   }
                   setIsEditTaskDialogVisible={setIsEditTaskDialogVisible}
                   setSelectedTask={setSelectedTask}
+                  setDeleteType={setDeleteType}
+                  setIsDeleteConfirmarionDialogVisible={
+                    setIsDeleteConfirmarionDialogVisible
+                  }
                 />
               );
             })}

@@ -18,13 +18,15 @@ import { Button } from "../ui/button";
 
 const DeleteConfirmationDialog = ({
   isVisible,
-  projectId,
   setIsVisible,
+  projectId,
+  taskId,
   type,
 }: {
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   projectId?: string;
+  taskId?: string;
   type: "project" | "task" | "all-projects";
 }) => {
   const router = useRouter();
@@ -81,6 +83,37 @@ const DeleteConfirmationDialog = ({
       }
     },
   });
+
+  const { mutate: handleDeleteTask, isPending: deleteTaskPending } =
+    useMutation({
+      mutationKey: ["delete-task"],
+      mutationFn: async () => {
+        if (!taskId) {
+          throw new Error("Task does not exist");
+        }
+        if (!projectId) {
+          throw new Error("Project does not exist");
+        }
+
+        const { data } = await axios.delete(`/api/delete-task/${taskId}`);
+
+        return data as { message: string };
+      },
+      onSuccess: async (data) => {
+        await queryClient.invalidateQueries({
+          queryKey: [`get-project-${projectId}`],
+        });
+        toast.success(data.message);
+        setIsVisible(false);
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError && error.response?.data.error) {
+          toast.error(error.response.data.error);
+        } else {
+          toast.error("Some error occured. Please try again later!");
+        }
+      },
+    });
   return (
     <Dialog open={isVisible} onOpenChange={() => setIsVisible(false)}>
       <DialogContent>
@@ -102,7 +135,11 @@ const DeleteConfirmationDialog = ({
           <Button
             variant={"ghost"}
             onClick={() => setIsVisible(false)}
-            disabled={deleteAllProjectsPending || deleteProjectPending}
+            disabled={
+              deleteAllProjectsPending ||
+              deleteProjectPending ||
+              deleteTaskPending
+            }
           >
             Cancel
           </Button>
@@ -113,11 +150,19 @@ const DeleteConfirmationDialog = ({
                 handleDeleteProject();
               } else if (type === "all-projects") {
                 handleDeleteAllProjects();
+              } else if (type === "task") {
+                handleDeleteTask();
               }
             }}
-            disabled={deleteAllProjectsPending || deleteProjectPending}
+            disabled={
+              deleteAllProjectsPending ||
+              deleteProjectPending ||
+              deleteTaskPending
+            }
           >
-            {deleteAllProjectsPending || deleteProjectPending
+            {deleteAllProjectsPending ||
+            deleteProjectPending ||
+            deleteTaskPending
               ? "Please wait..."
               : "Delete"}
           </Button>
