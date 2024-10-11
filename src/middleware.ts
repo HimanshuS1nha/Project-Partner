@@ -9,7 +9,8 @@ export const middleware = async (req: NextRequest) => {
     pathname === "/api/is-logged-in" ||
     pathname === "/api/login" ||
     pathname === "/api/signup" ||
-    pathname === "/api/verify-email"
+    pathname === "/api/verify-email" ||
+    pathname === "/api/resend-otp"
   ) {
     return NextResponse.next();
   }
@@ -17,7 +18,12 @@ export const middleware = async (req: NextRequest) => {
   const token = cookies().get("token")?.value;
 
   if (!token) {
-    if (pathname === "/login" || pathname === "/signup") {
+    if (
+      pathname === "/login" ||
+      pathname === "/signup" ||
+      pathname === "/verify-email" ||
+      pathname === "/forgot-password"
+    ) {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(new URL("/login", req.url));
@@ -31,7 +37,12 @@ export const middleware = async (req: NextRequest) => {
   if (!payload.email) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
-  if (pathname === "/login" || pathname === "/signup") {
+  if (
+    pathname === "/login" ||
+    pathname === "/signup" ||
+    pathname === "/verify-email" ||
+    pathname === "/forgot-password"
+  ) {
     return NextResponse.redirect(new URL("/dashboard/projects", req.url));
   }
 
@@ -43,6 +54,8 @@ export const config = {
     "/dashboard/:path*",
     "/login",
     "/signup",
+    "/verify-email",
+    "/forgot-password",
     "/api/:path*",
     "/change-password",
   ],
