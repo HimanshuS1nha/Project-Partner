@@ -32,7 +32,9 @@ export const POST = async (req: NextRequest) => {
     if (!otpEntry) {
       return NextResponse.json({ error: "Please resend otp" }, { status: 400 });
     }
-
+    if (otpEntry.expiresIn < new Date()) {
+      return NextResponse.json({ error: "OTP has expired" }, { status: 422 });
+    }
     if (otpEntry.otp !== parseInt(otp)) {
       return NextResponse.json({ error: "Invalid OTP" }, { status: 400 });
     }
@@ -63,7 +65,7 @@ export const POST = async (req: NextRequest) => {
       );
     } else {
       return NextResponse.json(
-        { error: "Some erro occured. Please try again later!" },
+        { error: "Some error occured. Please try again later!" },
         { status: 500 }
       );
     }
