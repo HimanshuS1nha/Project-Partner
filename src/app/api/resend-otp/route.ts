@@ -22,7 +22,6 @@ export const POST = async (req: NextRequest) => {
     }
 
     const otp = generateOtp();
-    await sendEmail(user.email, otp);
 
     await prisma.otp.deleteMany({
       where: {
@@ -36,6 +35,14 @@ export const POST = async (req: NextRequest) => {
         expiresIn: new Date(Date.now() + 5 * 60 * 1000),
       },
     });
+
+    const isEmailSent = await sendEmail(user.email, otp);
+    if (!isEmailSent) {
+      return NextResponse.json(
+        { error: "Error in sending otp. Please try again later" },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       { message: "OTP resent successfully" },

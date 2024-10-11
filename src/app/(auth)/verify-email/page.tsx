@@ -16,30 +16,59 @@ import {
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 import { verifyEmailValidator } from "@/validators/verify-email-validator";
+import { resendOtpValidator } from "@/validators/resend-otp-validator";
 
 const VerifyEmail = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
-  
+
   const [otp, setOtp] = useState("");
 
-  const { mutate: handleVerifyOtp, isPending } = useMutation({
+  const { mutate: handleVerifyOtp, isPending: verifyEmailPending } =
+    useMutation({
+      mutationKey: ["verify-email"],
+      mutationFn: async () => {
+        const parsedData = await verifyEmailValidator.parseAsync({
+          otp,
+          email,
+        });
+
+        const { data } = await axios.post("/api/verify-email", {
+          ...parsedData,
+        });
+
+        return data as { message: string };
+      },
+      onSuccess: (data) => {
+        toast.success(data.message);
+        setOtp("");
+        router.replace("/login");
+      },
+      onError: (error) => {
+        if (error instanceof ZodError) {
+          toast.error(error.errors[0].message);
+        } else if (error instanceof AxiosError && error.response?.data.error) {
+          toast.error(error.response.data.error);
+        } else {
+          toast.error("Some error occured. Please try again later!");
+        }
+      },
+    });
+
+  const { mutate: handleResendOtp, isPending: resendOtpPending } = useMutation({
     mutationKey: ["verify-email"],
     mutationFn: async () => {
-      const parsedData = await verifyEmailValidator.parseAsync({
-        otp,
+      const parsedData = await resendOtpValidator.parseAsync({
         email,
       });
 
-      const { data } = await axios.post("/api/verify-email", { ...parsedData });
+      const { data } = await axios.post("/api/resend-otp", { ...parsedData });
 
       return data as { message: string };
     },
     onSuccess: (data) => {
       toast.success(data.message);
-      setOtp("");
-      router.replace("/login");
     },
     onError: (error) => {
       if (error instanceof ZodError) {
@@ -87,12 +116,20 @@ const VerifyEmail = () => {
         </div>
 
         <div className="flex flex-col gap-y-2.5">
-          <Button type="submit" disabled={isPending}>
-            {isPending ? "Please wait..." : "Verify"}
+          <Button
+            type="submit"
+            disabled={verifyEmailPending || resendOtpPending}
+          >
+            {verifyEmailPending ? "Please wait..." : "Verify"}
           </Button>
 
-          <Button variant={"link"} disabled={isPending}>
-            Resend OTP
+          <Button
+            variant={"link"}
+            disabled={verifyEmailPending || resendOtpPending}
+            type="button"
+            onClick={() => handleResendOtp()}
+          >
+            {resendOtpPending ? "Please wait..." : "Resend OTP"}
           </Button>
         </div>
       </form>

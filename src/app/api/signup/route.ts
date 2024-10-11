@@ -60,7 +60,7 @@ export const POST = async (req: NextRequest) => {
     const isEmailSent = await sendEmail(email, otp);
     if (!isEmailSent) {
       return NextResponse.json(
-        { error: "Some error occured. Please try again later" },
+        { error: "Error in sending otp. Please try again later" },
         { status: 500 }
       );
     }
