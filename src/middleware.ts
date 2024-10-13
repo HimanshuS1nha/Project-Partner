@@ -12,7 +12,8 @@ export const middleware = async (req: NextRequest) => {
     pathname === "/api/verify-email" ||
     pathname === "/api/resend-otp" ||
     pathname === "/api/forgot-password" ||
-    pathname === "/api/forgot-password/verify"
+    pathname === "/api/forgot-password/verify" ||
+    pathname === "/api/forgot-password/create-new-password"
   ) {
     return NextResponse.next();
   }
@@ -25,7 +26,8 @@ export const middleware = async (req: NextRequest) => {
       pathname === "/signup" ||
       pathname === "/verify-email" ||
       pathname === "/forgot-password" ||
-      pathname === "/forgot-password/verify"
+      pathname === "/forgot-password/verify" ||
+      pathname === "/forgot-password/create-new-password"
     ) {
       return NextResponse.next();
     } else {
@@ -45,7 +47,8 @@ export const middleware = async (req: NextRequest) => {
     pathname === "/signup" ||
     pathname === "/verify-email" ||
     pathname === "/forgot-password" ||
-    pathname === "/forgot-password/verify"
+    pathname === "/forgot-password/verify" ||
+    pathname === "/forgot-password/create-new-password"
   ) {
     return NextResponse.redirect(new URL("/dashboard/projects", req.url));
   }
@@ -61,6 +64,7 @@ export const config = {
     "/verify-email",
     "/forgot-password",
     "/forgot-password/verify",
+    "/forgot-password/create-new-password",
     "/api/:path*",
     "/change-password",
   ],
