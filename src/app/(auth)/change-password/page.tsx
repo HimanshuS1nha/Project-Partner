@@ -23,6 +23,7 @@ const ChangePassword = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<changePasswordValidatorType>({
     defaultValues: {
       oldPassword: "",
@@ -44,6 +45,7 @@ const ChangePassword = () => {
       return data as { message: string };
     },
     onSuccess: (data) => {
+      reset();
       toast.success(data.message);
       router.replace("/dashboard/projects");
     },
@@ -51,7 +53,7 @@ const ChangePassword = () => {
       if (error instanceof AxiosError && error.response?.data.error) {
         toast.error(error.response.data.error);
       } else {
-        toast.error("Some error occured. Please try again later!");
+        toast.error(error.message);
       }
     },
   });
