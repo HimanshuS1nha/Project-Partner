@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +22,7 @@ import type { UserType } from "../../../types";
 
 const Navbar = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, setUser } = useUser();
 
   const { data } = useQuery({
@@ -67,19 +68,29 @@ const Navbar = () => {
       <div className="flex items-center gap-x-7">
         <Link
           href={"/"}
-          className="hover:text-indigo-600 delay-100 transition-all"
+          className={`${
+            pathname === "/" ? "text-indigo-600" : "hover:text-indigo-600"
+          } delay-100 transition-all`}
         >
           Home
         </Link>
         <Link
           href={"/pricing"}
-          className="hover:text-indigo-600 delay-100 transition-all"
+          className={`${
+            pathname === "/pricing"
+              ? "text-indigo-600"
+              : "hover:text-indigo-600"
+          } delay-100 transition-all`}
         >
           Pricing
         </Link>
         <Link
           href={"/contact"}
-          className="hover:text-indigo-600 delay-100 transition-all"
+          className={`${
+            pathname === "/contact"
+              ? "text-indigo-600"
+              : "hover:text-indigo-600"
+          } delay-100 transition-all`}
         >
           Contact Us
         </Link>
