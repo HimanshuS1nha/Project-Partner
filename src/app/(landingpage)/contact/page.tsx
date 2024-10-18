@@ -12,7 +12,7 @@ const Contact = () => {
         subTitle="We'd love to hear from you! Whether you have questions or some feedback, feel free to reach out. Our team is here to assist you and ensure you have the best experience possible."
       />
 
-      <form className="flex flex-col gap-y-6 w-[60%]">
+      <form className="flex flex-col gap-y-6 w-[90%] sm:w-[75%] lg:w-[60%]">
         <div className="flex flex-col gap-y-3">
           <Label htmlFor="name" className="ml-1">
             Name

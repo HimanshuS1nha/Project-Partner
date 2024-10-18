@@ -4,7 +4,7 @@ import { pricingPlans } from "@/constants/pricing-plans";
 
 const Pricing = () => {
   return (
-    <section className="flex flex-col gap-y-12 mt-12 items-center">
+    <section className="flex flex-col gap-y-12 mt-12 items-center pb-4">
       <Title
         title="Pricing"
         subTitle="Discover our transparent pricing plans designed specifically for project management success. Choose the package that best supports your workflow and goals!"

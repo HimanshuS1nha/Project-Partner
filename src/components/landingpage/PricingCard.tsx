@@ -21,7 +21,7 @@ const PricingCard = ({
   return (
     <div
       className={cn(
-        "bg-white py-10 px-7 w-[400px] rounded-xl flex flex-col gap-y-6 shadow-sm",
+        "py-10 px-7 w-[400px] rounded-xl flex flex-col gap-y-6 shadow-sm",
         isHighlighted
           ? "border-2 border-indigo-600 shadow-indigo-600"
           : "shadow-black"
