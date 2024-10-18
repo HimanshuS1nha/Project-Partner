@@ -65,7 +65,7 @@ const Navbar = () => {
     <nav className="h-[8vh] px-6 flex items-center justify-between">
       <div className="flex gap-x-10 items-center">
         <div className="flex gap-x-4 items-center">
-          <p className="text-xl font-semibold">
+          <p className="text-xl font-bold">
             Project<span className="text-indigo-600 font-bold">Buddy</span>
           </p>
           <p className="text-gray-700">/</p>

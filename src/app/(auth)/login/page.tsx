@@ -102,6 +102,15 @@ const Login = () => {
           {errors.password && (
             <p className="text-rose-600 text-sm">{errors.password.message}</p>
           )}
+
+          <div className="flex justify-end">
+            <Link
+              href={"/forgot-password"}
+              className="text-indigo-600 text-sm font-semibold hover:underline delay-100 transition-all"
+            >
+              Forgot Password?
+            </Link>
+          </div>
         </div>
 
         <Button type="submit" disabled={isPending}>

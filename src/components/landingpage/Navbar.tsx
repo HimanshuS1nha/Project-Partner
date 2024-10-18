@@ -67,8 +67,8 @@ const Navbar = () => {
     }
   }, [data, setUser]);
   return (
-    <nav className="flex h-[8vh] justify-between lg:justify-around items-center px-7 lg:px-0">
-      <p className="text-xl font-semibold">
+    <nav className="flex h-[8vh] justify-between lg:justify-around items-center px-4 lg:px-0">
+      <p className="text-xl font-bold">
         Project<span className="text-indigo-600 font-bold">Partner</span>
       </p>
 
@@ -188,7 +188,7 @@ const Navbar = () => {
             </div>
 
             {!user && (
-              <div className="flex gap-x-4 justify-center">
+              <div className="flex gap-x-4 justify-center pb-4">
                 <DrawerClose asChild>
                   <Button variant={"outline"} asChild className="w-[45%]">
                     <Link href={"/login"}>Login</Link>
