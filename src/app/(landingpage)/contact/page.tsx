@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const Contact = () => {
   return (
-    <section className="flex flex-col gap-y-10 mt-12 items-center">
+    <section className="flex flex-col gap-y-10 mt-6 md:mt-12 items-center pb-4">
       <Title
         title="Contact Us"
         subTitle="We'd love to hear from you! Whether you have questions or some feedback, feel free to reach out. Our team is here to assist you and ensure you have the best experience possible."

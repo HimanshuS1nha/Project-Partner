@@ -19,12 +19,6 @@ export const POST = async (req: NextRequest) => {
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-    if (user.isVerified) {
-      return NextResponse.json(
-        { error: "User already verified. Please login" },
-        { status: 409 }
-      );
-    }
 
     const otpEntry = await prisma.otp.findUnique({
       where: {

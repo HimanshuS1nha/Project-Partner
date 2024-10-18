@@ -18,7 +18,7 @@ export const POST = async (req: NextRequest) => {
       },
     });
     if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const otp = generateOtp();
