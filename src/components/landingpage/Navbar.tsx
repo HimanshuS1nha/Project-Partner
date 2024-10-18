@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { usePathname, useRouter } from "next/navigation";
+import { IoMenuOutline } from "react-icons/io5";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +17,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { useUser } from "@/hooks/useUser";
 
 import type { UserType } from "../../../types";
@@ -60,12 +67,12 @@ const Navbar = () => {
     }
   }, [data, setUser]);
   return (
-    <nav className="flex h-[8vh] justify-around items-center">
+    <nav className="flex h-[8vh] justify-between lg:justify-around items-center px-7 lg:px-0">
       <p className="text-xl font-semibold">
         Project<span className="text-indigo-600 font-bold">Partner</span>
       </p>
 
-      <div className="flex items-center gap-x-7">
+      <div className="hidden lg:flex items-center gap-x-7">
         <Link
           href={"/"}
           className={`${
@@ -96,40 +103,109 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {user ? (
-        <DropdownMenu>
-          <DropdownMenuTrigger className="focus:outline-none">
-            <div className="bg-indigo-600 w-8 h-8 rounded-full flex justify-center items-center">
-              <p className="text-white">{user?.name?.[0]}</p>
+      <div className="flex gap-x-5 items-center">
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger className="focus:outline-none">
+              <div className="bg-indigo-600 w-8 h-8 rounded-full flex justify-center items-center">
+                <p className="text-white">{user?.name?.[0]}</p>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href={"/dashboard/projects"}>Go to Dashboard</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer" asChild>
+                <Link href={"/change-password"}>Change Password</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="focus:bg-rose-600 focus:text-white cursor-pointer"
+                onClick={() => handleLogout()}
+              >
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <div className="hidden lg:flex gap-x-5 items-center">
+            <Button variant={"ghost"} asChild>
+              <Link href={"/login"}>Login</Link>
+            </Button>
+            <Button asChild>
+              <Link href={"/signup"}>Signup</Link>
+            </Button>
+          </div>
+        )}
+
+        <Drawer>
+          <DrawerTrigger>
+            <IoMenuOutline
+              size={30}
+              color="black"
+              className="block lg:hidden"
+            />
+          </DrawerTrigger>
+          <DrawerContent>
+            <div className="flex flex-col gap-y-6 items-center py-3">
+              <DrawerClose asChild>
+                <Link
+                  href={"/"}
+                  className={`${
+                    pathname === "/"
+                      ? "text-indigo-600"
+                      : "hover:text-indigo-600"
+                  } delay-100 transition-all`}
+                >
+                  Home
+                </Link>
+              </DrawerClose>
+              <DrawerClose asChild>
+                <Link
+                  href={"/pricing"}
+                  className={`${
+                    pathname === "/pricing"
+                      ? "text-indigo-600"
+                      : "hover:text-indigo-600"
+                  } delay-100 transition-all`}
+                >
+                  Pricing
+                </Link>
+              </DrawerClose>
+              <DrawerClose asChild>
+                <Link
+                  href={"/contact"}
+                  className={`${
+                    pathname === "/contact"
+                      ? "text-indigo-600"
+                      : "hover:text-indigo-600"
+                  } delay-100 transition-all`}
+                >
+                  Contact Us
+                </Link>
+              </DrawerClose>
             </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer" asChild>
-              <Link href={"/dashboard/projects"}>Go to Dashboard</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer" asChild>
-              <Link href={"/change-password"}>Change Password</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="focus:bg-rose-600 focus:text-white cursor-pointer"
-              onClick={() => handleLogout()}
-            >
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ) : (
-        <div className="flex gap-x-5 items-center">
-          <Button variant={"ghost"} asChild>
-            <Link href={"/login"}>Login</Link>
-          </Button>
-          <Button asChild>
-            <Link href={"/signup"}>Signup</Link>
-          </Button>
-        </div>
-      )}
+
+            {!user && (
+              <div className="flex gap-x-4 justify-center">
+                <DrawerClose asChild>
+                  <Button variant={"outline"} asChild className="w-[45%]">
+                    <Link href={"/login"}>Login</Link>
+                  </Button>
+                </DrawerClose>
+                <DrawerClose asChild>
+                  <Button asChild>
+                    <Link href={"/signup"} className="w-[45%]">
+                      Signup
+                    </Link>
+                  </Button>
+                </DrawerClose>
+              </div>
+            )}
+          </DrawerContent>
+        </Drawer>
+      </div>
     </nav>
   );
 };

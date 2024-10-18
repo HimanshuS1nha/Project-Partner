@@ -42,9 +42,10 @@ const Login = () => {
     mutationFn: async (values: loginValidatorType) => {
       const { data } = await axios.post("/api/login", { ...values });
 
-      return data as { isVerified: boolean; user: UserType };
+      return data as { isVerified: boolean; user: UserType; message: string };
     },
     onSuccess: (data) => {
+      toast.success(data.message);
       if (!data.isVerified) {
         router.push(`/verify-email?email=${getValues("email")}`);
       } else {
