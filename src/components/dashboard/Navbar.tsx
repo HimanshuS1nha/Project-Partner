@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { IoFolderOpen } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
@@ -25,6 +25,7 @@ import type { UserType } from "../../../types";
 const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const queryClient = useQueryClient();
   const { setUser, user } = useUser();
 
   const { data, isLoading } = useQuery({
@@ -42,7 +43,8 @@ const Navbar = () => {
 
       return data as { message: string };
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({ queryKey: ["is-logged-in"] });
       setUser(null);
       toast.success(data.message);
       router.replace("/");

@@ -13,7 +13,8 @@ export const middleware = async (req: NextRequest) => {
     pathname === "/api/resend-otp" ||
     pathname === "/api/forgot-password" ||
     pathname === "/api/forgot-password/verify" ||
-    pathname === "/api/forgot-password/create-new-password"
+    pathname === "/api/forgot-password/create-new-password" ||
+    pathname === "/api/contact"
   ) {
     return NextResponse.next();
   }
