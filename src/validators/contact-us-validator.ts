@@ -17,3 +17,5 @@ export const contactUsValidator = z.object({
     .trim()
     .min(1, { message: "Please fill in the message field" }),
 });
+
+export type contactUsValidatorType = z.infer<typeof contactUsValidator>;
