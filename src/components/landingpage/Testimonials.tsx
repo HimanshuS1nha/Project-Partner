@@ -17,7 +17,7 @@ import { testimonials } from "@/constants/testimonials";
 
 const Testimonials = () => {
   return (
-    <section className="mt-20 flex flex-col items-center gap-y-12">
+    <section className="mt-12 sm:mt-20 flex flex-col items-center gap-y-12">
       <Title
         title="Testimonials"
         subTitle="Explore how our clients have leveraged ProjectPartner to achieve timely project completions and turn challenges into remarkable successes."

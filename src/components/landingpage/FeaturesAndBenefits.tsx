@@ -5,7 +5,7 @@ import { featuresAndBenefits } from "@/constants/features-and-benefits";
 
 const FeaturesAndBenefits = () => {
   return (
-    <section className="mt-20 flex flex-col gap-y-10 sm:gap-y-24 items-center relative">
+    <section className="sm:mt-20 flex flex-col gap-y-10 sm:gap-y-24 items-center relative">
       <Image
         src={"/star.png"}
         alt="Star"
