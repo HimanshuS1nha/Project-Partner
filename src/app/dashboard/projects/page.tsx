@@ -69,7 +69,7 @@ const Projects = () => {
     };
   }, [searchQuery]);
   return (
-    <div className="mt-10 px-20 flex flex-col gap-y-8 pb-10">
+    <div className="mt-10 px-4 md:px-10 lg:px-20 flex flex-col gap-y-8 pb-10">
       <CreateNewProjectDialog
         isVisible={isCreateNewProjectDialogVisible}
         setIsVisible={setIsCreateNewProjectDialogVisible}
@@ -93,7 +93,7 @@ const Projects = () => {
         </Button>
       </div>
 
-      <div className="flex flex-wrap gap-x-7 items-center gap-y-6">
+      <div className="flex flex-wrap gap-x-7 justify-center w-fit items-center gap-y-6">
         {isLoading && (
           <div className="w-full flex justify-center">
             <Loader size="lg" />

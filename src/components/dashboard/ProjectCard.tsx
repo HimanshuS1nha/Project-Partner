@@ -32,7 +32,7 @@ const ProjectCard = ({
     (task) => task.status === "Completed"
   );
   return (
-    <div className="border border-gray-300 w-[420px] rounded-lg py-3 px-6 flex flex-col gap-y-5">
+    <div className="border border-gray-300 w-[98%] sm:w-[420px] rounded-lg py-3 px-6 flex flex-col gap-y-5">
       <div className="flex flex-col gap-y-1.5">
         <div className="flex justify-between items-center">
           <Link
