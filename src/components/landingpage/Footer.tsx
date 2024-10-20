@@ -9,15 +9,16 @@ import { Input } from "../ui/input";
 const Footer = () => {
   return (
     <footer className="mt-20 flex flex-col gap-y-10">
-      <div className="flex justify-between px-10">
-        <div className="flex flex-col w-[33%] gap-y-4">
+      <div className="flex flex-col lg:flex-row lg:justify-between px-10 items-center gap-y-7">
+        <div className="flex flex-col w-[90%] md:w-[50%] lg:w-[33%] gap-y-4">
           <p className="text-xl font-semibold">
             Project<span className="text-indigo-600 font-bold">Partner</span>
           </p>
           <p className="text-justify leading-7">
             ProjectPartner is your essential resource for effective project
             management. It empowers you to meet deadlines and achieve your
-            objectives with confidence and precision. Partner with us for successful outcomes!
+            objectives with confidence and precision. Partner with us for
+            successful outcomes!
           </p>
         </div>
 
@@ -61,7 +62,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-4 w-[30%]">
+        <div className="flex flex-col gap-y-4 w-[90%] md:w-[50%] lg:w-[30%]">
           <p className="font-semibold text-lg">Subscribe to our newsletter</p>
           <div className="flex items-center gap-x-2">
             <Input placeholder="Enter your email" />
