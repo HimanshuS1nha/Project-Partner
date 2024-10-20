@@ -9,7 +9,7 @@ import DeleteConfirmationDialog from "@/components/dashboard/DeleteConfirmationD
 const Settings = () => {
   const [isVisible, setIsVisible] = useState(false);
   return (
-    <div className="mt-10 px-36 flex flex-col gap-y-8 pb-10">
+    <div className="mt-10 px-5 md:px-12 lg:px-28 xl:px-36 flex flex-col gap-y-8 pb-10">
       <DeleteConfirmationDialog
         isVisible={isVisible}
         setIsVisible={setIsVisible}
@@ -25,7 +25,7 @@ const Settings = () => {
         <div className="flex justify-between items-center p-3 border border-gray-300 rounded-lg">
           <div className="flex flex-col gap-y-1">
             <p className="text-lg font-semibold">Change Password</p>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-700 text-xs sm:text-sm">
               Change your current password
             </p>
           </div>
@@ -38,7 +38,7 @@ const Settings = () => {
         <div className="flex justify-between items-center p-3 border border-gray-300 rounded-lg">
           <div className="flex flex-col gap-y-1">
             <p className="text-lg font-semibold">Delete Projects</p>
-            <p className="text-gray-700 text-sm">
+            <p className="text-gray-700 text-xs sm:text-sm">
               Delete all your projects{" "}
               <span className="text-rose-600 font-semibold">
                 (This action is irreversible)
