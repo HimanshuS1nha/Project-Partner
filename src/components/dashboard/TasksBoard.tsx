@@ -77,7 +77,7 @@ const TasksBoard = ({
   });
   return (
     <div
-      className="flex flex-col gap-y-5 border border-gray-300 p-5 w-[400px] rounded-lg items-center"
+      className="flex flex-col gap-y-5 border border-gray-300 p-3 sm:p-5 w-[95%] sm:w-[370px] rounded-lg items-center"
       onDragOver={(e) => {
         e.preventDefault();
       }}
@@ -116,7 +116,7 @@ const TasksBoard = ({
         .map((task) => {
           return (
             <div
-              className="flex justify-between bg-gray-300 p-3 items-center rounded-lg w-[320px]"
+              className="flex justify-between bg-gray-300 p-3 items-center rounded-lg w-[95%] sm:w-[325px]"
               key={task.id}
               draggable
               onDragStart={(e) => {
@@ -124,7 +124,7 @@ const TasksBoard = ({
               }}
             >
               <div className="flex flex-col">
-                <p className="font-semibold text-lg">{task.title}</p>
+                <p className="font-semibold sm:text-lg">{task.title}</p>
                 <p className="text-xs text-gray-700">
                   {task.startDate} - {task.endDate}
                 </p>
@@ -132,7 +132,7 @@ const TasksBoard = ({
 
               <div className="flex gap-x-2 items-center">
                 <MdDelete
-                  size={22}
+                  size={20}
                   color="black"
                   className="cursor-pointer"
                   onClick={() => {
@@ -142,7 +142,7 @@ const TasksBoard = ({
                   }}
                 />
                 <MdEdit
-                  size={22}
+                  size={20}
                   color="black"
                   className="cursor-pointer"
                   onClick={() => {

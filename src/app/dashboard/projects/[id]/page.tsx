@@ -5,6 +5,7 @@ import { GoDotFill } from "react-icons/go";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/ui/loader";
@@ -12,10 +13,10 @@ import TasksBoard from "@/components/dashboard/TasksBoard";
 import CreateNewTaskDialog from "@/components/dashboard/CreateNewTaskDialog";
 import EditProjectDialog from "@/components/dashboard/EditProjectDialog";
 import EditTaskDialog from "@/components/dashboard/EditTaskDialog";
+import DeleteConfirmationDialog from "@/components/dashboard/DeleteConfirmationDialog";
 
 import type { TaskType } from "../../../../../types";
 import type { ProjectType } from "../../../../../types";
-import DeleteConfirmationDialog from "@/components/dashboard/DeleteConfirmationDialog";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
@@ -54,7 +55,7 @@ const Project = ({ params }: { params: { id: string } }) => {
     }
   }, [data]);
   return (
-    <div className="px-40 mt-10 flex flex-col gap-y-12">
+    <div className="px-5 sm:px-10 2xl:px-40 mt-10 flex flex-col gap-y-12">
       <CreateNewTaskDialog
         type={type}
         isVisible={isCreateNewTaskDialogVisible}
@@ -93,7 +94,7 @@ const Project = ({ params }: { params: { id: string } }) => {
         <>
           <div className="flex justify-between items-center">
             <div className="flex gap-x-2 items-center">
-              <p className="text-4xl font-semibold text-indigo-600">
+              <p className="text-2xl sm:text-4xl font-semibold text-indigo-600">
                 {data?.project.title}
               </p>
               <div
@@ -112,7 +113,7 @@ const Project = ({ params }: { params: { id: string } }) => {
                     data?.project.status === "Live"
                       ? "text-green-600"
                       : "text-rose-600"
-                  } capitalize text-sm font-semibold`}
+                  } capitalize text-xs sm:text-sm font-semibold`}
                 >
                   {data?.project.status}
                 </p>
@@ -121,7 +122,8 @@ const Project = ({ params }: { params: { id: string } }) => {
 
             <div className="flex gap-x-4 items-center">
               <Button onClick={() => setIsEditProjectDialogVisible(true)}>
-                Edit project
+                <p className="hidden sm:block">Edit Project</p>
+                <MdEdit className="block sm:hidden" size={20} />
               </Button>
               <Button
                 variant={"destructive"}
@@ -130,12 +132,13 @@ const Project = ({ params }: { params: { id: string } }) => {
                   setIsDeleteConfirmarionDialogVisible(true);
                 }}
               >
-                Delete Project
+                <p className="hidden sm:block">Delete Project</p>
+                <MdDelete className="block sm:hidden" size={20} />
               </Button>
             </div>
           </div>
 
-          <div className="flex gap-x-12 justify-center">
+          <div className="flex gap-x-12 justify-center flex-wrap gap-y-12">
             {[
               { title: "Pending", color: "rose" },
               { title: "Review", color: "indigo" },
