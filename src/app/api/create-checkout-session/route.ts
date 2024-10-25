@@ -32,6 +32,7 @@ export const POST = async () => {
       line_items: [
         {
           price: "price_1QDpf8SJN0Kv6QsT4f3movEw",
+          quantity: 1,
         },
       ],
       mode: "subscription",
@@ -41,7 +42,7 @@ export const POST = async () => {
     });
 
     return NextResponse.json({ url: session.url }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: "Some error occured. Please try again later!" },
       { status: 500 }
