@@ -36,9 +36,12 @@ export const POST = async () => {
         },
       ],
       mode: "subscription",
-      success_url: `${process.env.APP_URL}/dashboard/projects`,
+      success_url: `${process.env.APP_URL}`,
       cancel_url: `${process.env.APP_URL}/pricing`,
       client_reference_id: user.id,
+      currency: "INR",
+      customer_email: user.email,
+      billing_address_collection: "required",
     });
 
     return NextResponse.json({ url: session.url }, { status: 200 });
