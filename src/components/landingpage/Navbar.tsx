@@ -32,7 +32,7 @@ const Navbar = () => {
   const pathname = usePathname();
   const { user, setUser } = useUser();
 
-  const { data } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["is-logged-in"],
     queryFn: async () => {
       const { data } = await axios.get("/api/is-logged-in");
@@ -66,6 +66,12 @@ const Navbar = () => {
       setUser(data.user);
     }
   }, [data, setUser]);
+
+  useEffect(() => {
+    if (error) {
+      setUser(null);
+    }
+  }, [error, setUser]);
   return (
     <nav className="flex h-[8vh] justify-between lg:justify-around items-center px-4 lg:px-0">
       <p className="text-xl font-bold">

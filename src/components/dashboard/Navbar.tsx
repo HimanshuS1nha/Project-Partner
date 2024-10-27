@@ -36,7 +36,7 @@ const Navbar = () => {
   const queryClient = useQueryClient();
   const { setUser, user } = useUser();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["is-logged-in"],
     queryFn: async () => {
       const { data } = await axios.get("/api/is-logged-in");
@@ -69,8 +69,16 @@ const Navbar = () => {
   useEffect(() => {
     if (data?.user) {
       setUser(data.user);
+    } else {
+      setUser(null);
     }
   }, [data, setUser]);
+
+  useEffect(() => {
+    if (error) {
+      setUser(null);
+    }
+  }, [error, setUser]);
   return (
     <nav className="h-[8vh] px-6 flex items-center justify-between">
       <div className="flex gap-x-10 items-center">

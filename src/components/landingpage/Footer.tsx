@@ -9,7 +9,7 @@ import { Input } from "../ui/input";
 const Footer = () => {
   return (
     <footer className="mt-20 flex flex-col gap-y-10">
-      <div className="flex flex-col lg:flex-row lg:justify-between px-10 items-center gap-y-7">
+      <div className="flex flex-col lg:flex-row lg:justify-between px-10 items-center lg:items-start gap-y-7">
         <div className="flex flex-col w-[90%] md:w-[50%] lg:w-[33%] gap-y-4">
           <p className="text-xl font-semibold">
             Project<span className="text-indigo-600 font-bold">Partner</span>

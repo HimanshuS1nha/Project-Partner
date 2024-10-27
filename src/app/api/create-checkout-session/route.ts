@@ -36,8 +36,8 @@ export const POST = async () => {
         },
       ],
       mode: "subscription",
-      success_url: `${process.env.APP_URL}/projects/dashboard`,
-      cancel_url: `${process.env.APP_URL}/projects/dashboard`,
+      success_url: `${process.env.APP_URL}/dashboard/projects`,
+      cancel_url: `${process.env.APP_URL}/pricing`,
       client_reference_id: user.id,
     });
 

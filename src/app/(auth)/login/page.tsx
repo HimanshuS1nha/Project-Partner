@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 
 import { useUser } from "@/hooks/useUser";
@@ -18,10 +18,13 @@ import {
   type loginValidatorType,
 } from "@/validators/login-validator";
 import type { UserType } from "../../../../types";
+import { Suspense } from "react";
 
 const Login = () => {
   const router = useRouter();
   const setUser = useUser((state) => state.setUser);
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect_to");
 
   const {
     register,
@@ -50,7 +53,11 @@ const Login = () => {
         router.push(`/verify-email?email=${getValues("email")}`);
       } else {
         setUser(data.user);
-        router.replace("/dashboard/projects");
+        if (redirectTo) {
+          router.replace(`/${redirectTo}`);
+        } else {
+          router.replace("/dashboard/projects");
+        }
       }
       reset();
     },
@@ -133,4 +140,12 @@ const Login = () => {
   );
 };
 
-export default Login;
+const LoginPage = () => {
+  return (
+    <Suspense>
+      <Login />
+    </Suspense>
+  );
+};
+
+export default LoginPage;

@@ -1,3 +1,5 @@
+"use client";
+
 import { IoCheckmarkCircle } from "react-icons/io5";
 
 import { cn } from "@/lib/utils";
@@ -10,6 +12,7 @@ const PricingCard = ({
   price,
   buttonText,
   isHighlighted,
+  handleClick,
 }: {
   planName: string;
   description: string;
@@ -17,6 +20,7 @@ const PricingCard = ({
   features: string[];
   buttonText: string;
   isHighlighted: boolean;
+  handleClick: (planName: string) => void;
 }) => {
   return (
     <div
@@ -65,6 +69,7 @@ const PricingCard = ({
             ? ""
             : "text-indigo-600 border-indigo-300 hover:border-indigo-600 hover:bg-transparent hover:text-indigo-600 delay-100 transition-all"
         }
+        onClick={() => handleClick(planName)}
       >
         {buttonText}
       </Button>
