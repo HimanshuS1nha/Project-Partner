@@ -31,8 +31,9 @@ model Users {
   password   String
   isVerified Boolean @default(false)
 
-  Otp      Otp?
-  projects Projects[]
+  otp                 Otp?
+  projects            Projects[]
+  subscriptionDetails SubscriptionDetails?
 
   createdAt DateTime @default(now())
   updaedtAt DateTime @updatedAt
@@ -87,4 +88,17 @@ model ContactFormDetails {
   message String
 
   createdAt DateTime @default(now())
+}
+
+model SubscriptionDetails {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  customerId     String
+  subscriptionId String @unique
+  priceId        String
+
+  userEmail String @unique
+  user      Users  @relation(references: [email], fields: [userEmail], onDelete: Cascade)
+
+  currentPeriodEnd DateTime
+  createdAt        DateTime @default(now())
 }
