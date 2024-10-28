@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Partner
 
-## Getting Started
+ProjectPartner is your essential resource for effective project management. It empowers you to meet deadlines and achieve your objectives with confidence and precision. Partner with us for successful outcomes!
 
-First, run the development server:
+## Screenshots
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![Project Partner 1](https://github.com/user-attachments/assets/3537b64c-3a81-480d-a544-813c337cf121)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![Project Partner 2](https://github.com/user-attachments/assets/28e6c487-f623-4474-8c8d-9a702356b5a3)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![Project Partner 3](https://github.com/user-attachments/assets/e76c18b5-db62-47c7-bb10-f925d2ffc923)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+![Project Partner 4](https://github.com/user-attachments/assets/b12b7f77-ca2a-4ad1-8110-6ce8584d1425)
 
-## Learn More
+![Project Partner 5](https://github.com/user-attachments/assets/5762e9fb-69a1-4846-bbbb-f9710352182a)
 
-To learn more about Next.js, take a look at the following resources:
+![Project Partner 6](https://github.com/user-attachments/assets/bfff7ede-9c36-418f-95c7-27e77ac250a1)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![Project Partner 7](https://github.com/user-attachments/assets/62ad16f6-de1f-47b4-a99a-c17e8793b7f1)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Get started
 
-## Deploy on Vercel
+1. Add following environment variables : DATABASE_URL, JWT_SECRET (for signing tokens), SMTP_EMAIL (for sending emails using nodemailer), SMTP_PASS (for sending emails using nodemailer), STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, APP_URL (http://localhost:3000 in development)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. Install dependencies
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npm install
+   ```
+
+3. Start the dev server
+
+   ```bash
+    npm run dev
+   ```
+
+## Features
+
+- Login/Signup
+- OTP verification
+- Middleware to protect routes
+- Credit, Edit and Delete projects
+- Credit, Edit and Delete tasks within a project
+- Payment integration with Stripe
+- Kanban Board functionality
+
+## TECH STACK USED
+
+- Next.js
+- Tailwind CSS
+- Shadcn UI
+- Prisma
+- MongoDB
+- Stripe
+- Nodemailer
+- Zustand
+- Zod
+
+## Demo
+
+Live Demo - [Click Here](https://projectpartner.vercel.app)
+
+## 🚀 About Me
+
+My name is Himanshu Sinha and I'm a full stack developer.
