@@ -1,12 +1,55 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa6";
 
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
+import {
+  subscribeToNewsletterValidator,
+  type subscribeToNewsletterValidatorType,
+} from "@/validators/subscriber-to-newsletter-validator";
+import toast from "react-hot-toast";
+
 const Footer = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<subscribeToNewsletterValidatorType>({
+    defaultValues: {
+      email: "",
+    },
+    resolver: zodResolver(subscribeToNewsletterValidator),
+  });
+
+  const { mutate: handleSubscriberToNewsletter, isPending } = useMutation({
+    mutationKey: ["subscribe-to-newsletter"],
+    mutationFn: async (values: subscribeToNewsletterValidatorType) => {
+      const { data } = await axios.post("/api/subscribe-to-newsletter", {
+        ...values,
+      });
+
+      return data as { message: string };
+    },
+    onSuccess: (data) => {
+      reset();
+      toast.success(data.message);
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError && error.response?.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Some error occured. Please try again later!");
+      }
+    },
+  });
   return (
     <footer className="mt-20 flex flex-col gap-y-10">
       <div className="flex flex-col lg:flex-row lg:justify-between px-10 items-center lg:items-start gap-y-7">
@@ -64,10 +107,26 @@ const Footer = () => {
 
         <div className="flex flex-col gap-y-4 w-[90%] md:w-[50%] lg:w-[30%]">
           <p className="font-semibold text-lg">Subscribe to our newsletter</p>
-          <div className="flex items-center gap-x-2">
-            <Input placeholder="Enter your email" />
-            <Button>Subscribe</Button>
-          </div>
+          <form
+            className="flex items-center gap-x-2"
+            onSubmit={handleSubmit((data) =>
+              handleSubscriberToNewsletter(data)
+            )}
+          >
+            <div className="flex flex-col gap-y-1 w-full">
+              <Input
+                placeholder="Enter your email"
+                id="email"
+                {...register("email", { required: true })}
+              />
+              {errors.email && (
+                <p className="text-sm text-rose-600">{errors.email.message}</p>
+              )}
+            </div>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Please wait..." : "Subscribe"}
+            </Button>
+          </form>
         </div>
       </div>
 
