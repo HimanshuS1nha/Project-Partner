@@ -103,7 +103,7 @@ const Navbar = () => {
       <div className="flex gap-x-10 items-center">
         <div className="flex gap-x-4 items-center">
           <p className="text-xl font-bold">
-            Project<span className="text-indigo-600 font-bold">Buddy</span>
+            Project<span className="text-indigo-600 font-bold">Partner</span>
           </p>
           <p className="text-gray-700 hidden md:block">/</p>
           <div className="hidden md:flex items-center gap-x-2">

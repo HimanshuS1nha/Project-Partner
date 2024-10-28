@@ -1,4 +1,5 @@
 import Navbar from "@/components/dashboard/Navbar";
+import UpgradePlanDialog from "@/components/dashboard/UpgradePlanDialog";
 
 export default function DashboardLayout({
   children,
@@ -9,6 +10,7 @@ export default function DashboardLayout({
     <>
       <Navbar />
       {children}
+      <UpgradePlanDialog />
     </>
   );
 }

@@ -17,6 +17,7 @@ import {
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { useUpgradePlanDialog } from "@/hooks/useUpgradePlanDialog";
 
 import {
   createTaskValidatorClient,
@@ -36,6 +37,9 @@ const CreateNewTaskDialog = ({
   projectId: string;
 }) => {
   const queryClient = useQueryClient();
+  const setIsUpgradePlanDialogVisible = useUpgradePlanDialog(
+    (state) => state.setIsVisible
+  );
 
   const {
     register,
@@ -74,6 +78,11 @@ const CreateNewTaskDialog = ({
     onError: (error) => {
       if (error instanceof AxiosError && error.response?.data.error) {
         toast.error(error.response.data.error);
+
+        if (error.response.status === 403) {
+          setIsVisible(false);
+          setIsUpgradePlanDialogVisible(true);
+        }
       } else {
         toast.error("Some error occured. Please try again later!");
       }

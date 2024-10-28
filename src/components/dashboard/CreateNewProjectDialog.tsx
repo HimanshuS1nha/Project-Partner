@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useUpgradePlanDialog } from "@/hooks/useUpgradePlanDialog";
 
 import {
   createProjectValidator,
@@ -39,6 +40,9 @@ const CreateNewProjectDialog = ({
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const queryClient = useQueryClient();
+  const setIsUpgradePlanDialogVisible = useUpgradePlanDialog(
+    (state) => state.setIsVisible
+  );
 
   const {
     register,
@@ -72,6 +76,11 @@ const CreateNewProjectDialog = ({
     onError: (error) => {
       if (error instanceof AxiosError && error.response?.data.error) {
         toast.error(error.response.data.error);
+        
+        if (error.response.status === 403) {
+          setIsVisible(false);
+          setIsUpgradePlanDialogVisible(true);
+        }
       } else {
         toast.error("Some error occured. Please try again later!");
       }

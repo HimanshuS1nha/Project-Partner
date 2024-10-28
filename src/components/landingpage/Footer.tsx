@@ -117,6 +117,7 @@ const Footer = () => {
               <Input
                 placeholder="Enter your email"
                 id="email"
+                required
                 {...register("email", { required: true })}
               />
               {errors.email && (
