@@ -10,6 +10,7 @@ export type TaskType = {
 export type UserType = {
   email: string;
   name: string;
+  planType: "Basic" | "Pro";
 };
 
 export type ProjectType = {

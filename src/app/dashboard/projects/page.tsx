@@ -93,7 +93,11 @@ const Projects = () => {
         </Button>
       </div>
 
-      <div className="flex flex-wrap gap-x-7 justify-center w-fit items-center gap-y-6">
+      <div
+        className={`flex flex-wrap gap-x-7 justify-center ${
+          projects.length === 0 ? "w-full" : "w-fit"
+        } items-center gap-y-6`}
+      >
         {isLoading && (
           <div className="w-full flex justify-center">
             <Loader size="lg" />
@@ -115,7 +119,7 @@ const Projects = () => {
             })
           ) : (
             <div className="w-full flex justify-center">
-              <p className="text-rose-600 font-semibold text-lg">
+              <p className="text-rose-600 font-semibold text-lg text-center">
                 No projects to show.
               </p>
             </div>

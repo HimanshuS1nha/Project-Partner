@@ -30,7 +30,24 @@ export const GET = async () => {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    return NextResponse.json({ user }, { status: 200 });
+    const subscription = await prisma.subscriptionDetails.findUnique({
+      where: {
+        userEmail: user.email,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        user: {
+          ...user,
+          planType:
+            subscription && subscription.currentPeriodEnd > new Date()
+              ? "Pro"
+              : "Basic",
+        },
+      },
+      { status: 200 }
+    );
   } catch {
     return NextResponse.json(
       {

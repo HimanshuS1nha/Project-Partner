@@ -140,8 +140,22 @@ const Navbar = () => {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>
+                My Account{" "}
+                <span className="text-indigo-600 font-bold">
+                  ({user?.planType} Plan)
+                </span>
+              </DropdownMenuLabel>
               <DropdownMenuSeparator />
+              {user?.planType === "Pro" ? (
+                <DropdownMenuItem className="cursor-pointer">
+                  Manage Subscription
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem className="cursor-pointer" asChild>
+                  <Link href={"/pricing"}>Upgrade Plan</Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem className="cursor-pointer" asChild>
                 <Link href={"/change-password"}>Change Password</Link>
               </DropdownMenuItem>
