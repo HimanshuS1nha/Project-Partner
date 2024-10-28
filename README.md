@@ -5,18 +5,19 @@ ProjectPartner is your essential resource for effective project management. It e
 ## Screenshots
 
 ![Project Partner 1](https://github.com/user-attachments/assets/3537b64c-3a81-480d-a544-813c337cf121)
-
+---
 ![Project Partner 2](https://github.com/user-attachments/assets/28e6c487-f623-4474-8c8d-9a702356b5a3)
-
+---
 ![Project Partner 3](https://github.com/user-attachments/assets/e76c18b5-db62-47c7-bb10-f925d2ffc923)
-
+---
 ![Project Partner 4](https://github.com/user-attachments/assets/b12b7f77-ca2a-4ad1-8110-6ce8584d1425)
-
+---
 ![Project Partner 5](https://github.com/user-attachments/assets/5762e9fb-69a1-4846-bbbb-f9710352182a)
-
+---
 ![Project Partner 6](https://github.com/user-attachments/assets/bfff7ede-9c36-418f-95c7-27e77ac250a1)
-
+---
 ![Project Partner 7](https://github.com/user-attachments/assets/62ad16f6-de1f-47b4-a99a-c17e8793b7f1)
+---
 
 ## Get started
 
