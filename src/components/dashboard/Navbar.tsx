@@ -66,6 +66,25 @@ const Navbar = () => {
     },
   });
 
+  const { mutate: handleCreateBillingPortalSession } = useMutation({
+    mutationKey: ["create-billing-portal-session"],
+    mutationFn: async () => {
+      const { data } = await axios.get("/api/create-billing-portal-session");
+
+      return data as { url: string };
+    },
+    onSuccess: (data) => {
+      router.push(data.url);
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError && error.response?.data.error) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error("Some error occured. Please try again later");
+      }
+    },
+  });
+
   useEffect(() => {
     if (data?.user) {
       setUser(data.user);
@@ -148,7 +167,10 @@ const Navbar = () => {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               {user?.planType === "Pro" ? (
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => handleCreateBillingPortalSession()}
+                >
                   Manage Subscription
                 </DropdownMenuItem>
               ) : (
