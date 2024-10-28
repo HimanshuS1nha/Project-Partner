@@ -22,10 +22,37 @@ export const POST = async (req: NextRequest) => {
       where: {
         email: payload.email as string,
       },
+      include: {
+        subscriptionDetails: true,
+        projects: true,
+      },
     });
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (
+      !user.subscriptionDetails ||
+      user.subscriptionDetails.currentPeriodEnd < new Date()
+    ) {
+      if (user.projects.length >= 1) {
+        return NextResponse.json(
+          {
+            error: "Please upgrade your plan to create a new project",
+          },
+          { status: 403 }
+        );
+      }
+    }
+
+    if (user.projects.length > 10) {
+      return NextResponse.json(
+        {
+          error: "Please upgrade your plan to create a new project",
+        },
+        { status: 403 }
+      );
     }
 
     const data = await req.json();

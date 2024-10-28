@@ -22,6 +22,9 @@ export const POST = async (req: NextRequest) => {
       where: {
         email: payload.email as string,
       },
+      include: {
+        subscriptionDetails: true,
+      },
     });
 
     if (!user) {
@@ -36,12 +39,29 @@ export const POST = async (req: NextRequest) => {
       where: {
         id: projectId,
       },
+      include: {
+        tasks: true,
+      },
     });
     if (!project) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
     if (project.userEmail !== user.email) {
       return NextResponse.json({ error: "Access denied" }, { status: 401 });
+    }
+
+    if (
+      !user.subscriptionDetails ||
+      user.subscriptionDetails.currentPeriodEnd < new Date()
+    ) {
+      if (project.tasks.length > 10) {
+        return NextResponse.json(
+          {
+            error: "Please upgrade your plan to create a new task",
+          },
+          { status: 403 }
+        );
+      }
     }
 
     await prisma.tasks.create({

@@ -27,6 +27,18 @@ export const POST = async () => {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const subscription = await prisma.subscriptionDetails.findUnique({
+      where: {
+        userEmail: user.email,
+      },
+    });
+    if (subscription && subscription.currentPeriodEnd > new Date()) {
+      return NextResponse.json(
+        { error: "You are already on the Pro Plan" },
+        { status: 409 }
+      );
+    }
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
