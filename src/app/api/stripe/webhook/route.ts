@@ -89,7 +89,8 @@ export const POST = async (req: NextRequest) => {
 
     if (event.type === "customer.subscription.updated") {
       const subscription = await stripe.subscriptions.retrieve(
-        session.subscription as string
+        session.subscription as string,
+        { expand: ["items.data.price.product"] }
       );
 
       const existingSubscription = await prisma.subscriptionDetails.findUnique({
