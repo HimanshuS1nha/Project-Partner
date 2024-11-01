@@ -83,6 +83,7 @@ export const POST = async (req: NextRequest) => {
         data: {
           priceId: plan.id,
           currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+          status: "active",
         },
       });
     }
@@ -110,6 +111,35 @@ export const POST = async (req: NextRequest) => {
         },
         data: {
           currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+          status: "active",
+        },
+      });
+    }
+
+    if (event.type === "customer.subscription.deleted") {
+      const subscription = await stripe.subscriptions.retrieve(
+        session.subscription as string,
+        { expand: ["items.data.price.product"] }
+      );
+
+      const existingSubscription = await prisma.subscriptionDetails.findUnique({
+        where: {
+          subscriptionId: subscription.id,
+        },
+      });
+      if (!existingSubscription) {
+        return NextResponse.json(
+          { error: "Subscription does not exist" },
+          { status: 200 }
+        );
+      }
+
+      await prisma.subscriptionDetails.update({
+        where: {
+          subscriptionId: subscription.id,
+        },
+        data: {
+          status: "cancelled",
         },
       });
     }

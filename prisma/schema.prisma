@@ -24,6 +24,11 @@ enum TaskStatus {
   Completed
 }
 
+enum SubscriptionDetailsStatus {
+  active
+  cancelled
+}
+
 model Users {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   name       String
@@ -91,10 +96,11 @@ model ContactFormDetails {
 }
 
 model SubscriptionDetails {
-  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  id             String                    @id @default(auto()) @map("_id") @db.ObjectId
   customerId     String
-  subscriptionId String @unique
+  subscriptionId String                    @unique
   priceId        String
+  status         SubscriptionDetailsStatus @default(active)
 
   userEmail String @unique
   user      Users  @relation(references: [email], fields: [userEmail], onDelete: Cascade)

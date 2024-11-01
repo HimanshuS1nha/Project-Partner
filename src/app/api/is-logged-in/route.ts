@@ -41,7 +41,9 @@ export const GET = async () => {
         user: {
           ...user,
           planType:
-            subscription && subscription.currentPeriodEnd > new Date()
+            subscription &&
+            subscription.currentPeriodEnd > new Date() &&
+            subscription.status === "active"
               ? "Pro"
               : "Basic",
         },

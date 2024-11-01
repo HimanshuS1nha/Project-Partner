@@ -34,7 +34,8 @@ export const POST = async (req: NextRequest) => {
 
     if (
       !user.subscriptionDetails ||
-      user.subscriptionDetails.currentPeriodEnd < new Date()
+      user.subscriptionDetails.currentPeriodEnd < new Date() ||
+      user.subscriptionDetails.status === "cancelled"
     ) {
       if (user.projects.length >= 1) {
         return NextResponse.json(
